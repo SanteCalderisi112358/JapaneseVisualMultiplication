@@ -94,7 +94,6 @@ aspect-ratio: 1;
     background-color: transparent;
     margin-bottom: 100px;
     position: relative;
-    transform: rotate(-45deg);
     margin: 70px;
 }
 
@@ -147,6 +146,14 @@ font-weight: 700;
     position: absolute; 
     width: 100%; 
     border: 1px solid #025988;
+}
+
+.intersection-circle{
+    position: absolute;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+border: 1px solid black;
 }
 @media(max-width:576px){
     .input-fields-container{

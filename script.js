@@ -73,6 +73,7 @@ printError = (messageError, flag) => {
 }
 
 btnEl.addEventListener('click', ()=>{
+    japaneseBoxEl.style.transform = 'rotate(0deg)'
     japaneseBoxEl.innerText ='';
     japaneseMultiplicationEl.innerText ='';
     inputElFirst.value = '';
@@ -111,6 +112,8 @@ function printJapaneseVisualMultiplication() {
     printParallelLine(firstInput.units, 'right', 'line-units-first-multiplicand',isTensFirstInput);
     printParallelLine(secondInput.tens, 'top', 'line-tens-second-multiplicand',isTensSecondInput);
     printParallelLine(secondInput.units, 'bottom', 'line-units-second-multiplicand',isTensSecondInput);
+    calculateCrossPoint()
+    japaneseBoxEl.style.transform = 'rotate(-45deg)'
 }
 
 
@@ -131,9 +134,49 @@ printParallelLine =(number,direction,lineClass,isThereTens)=>{
 for(i=0;i<number;i++){
     let line = document.createElement('div');
     line.classList.add(`${lineClass}`)
+    line.classList.add('line')
     if(isThereTens)
     line.style[`${direction}`] = `${(20+i*10)/number}%`
 else line.style[`${direction}`] = `${((50-number)+i*10)}%`
     japaneseBoxEl.appendChild(line)
 }
 }
+
+calculateCrossPoint = () => {
+    let intersection = [];
+
+    const parentContainer = japaneseBoxEl.getBoundingClientRect();
+    const parentWidth = parentContainer.width;
+    const parentHeight = parentContainer.height;
+
+    const calculateIntersection = (lines1, lines2) => {
+        for (let i = 0; i < lines1.length; i++) {
+            const coordLine1 = lines1[i].getBoundingClientRect();
+            for (let j = 0; j < lines2.length; j++) {
+                const coordLine2 = lines2[j].getBoundingClientRect();
+                const left = Math.max(coordLine1.left, coordLine2.left);
+                const right = Math.min(coordLine1.right, coordLine2.right);
+                const top = Math.max(coordLine1.top, coordLine2.top);
+                const bottom = Math.min(coordLine1.bottom, coordLine2.bottom);
+                if (left < right && top < bottom) {
+                    const x = ((left - parentContainer.left) / parentWidth) * 100;
+                    const y = ((top - parentContainer.top) / parentHeight) * 100;
+                    intersection.push({ x, y });
+                    const circle = document.createElement('div');
+                    circle.classList.add('intersection-circle');
+                    circle.style.left = `${x-1}%`;
+                    circle.style.top = `${y-1}%`;
+                    japaneseBoxEl.appendChild(circle);
+                }
+            }
+        }
+    };
+
+    calculateIntersection(document.querySelectorAll('.line-tens-first-multiplicand'), document.querySelectorAll('.line-tens-second-multiplicand'));
+    calculateIntersection(document.querySelectorAll('.line-tens-first-multiplicand'), document.querySelectorAll('.line-units-second-multiplicand'));
+    calculateIntersection(document.querySelectorAll('.line-units-first-multiplicand'), document.querySelectorAll('.line-tens-second-multiplicand'));
+    calculateIntersection(document.querySelectorAll('.line-units-first-multiplicand'), document.querySelectorAll('.line-units-second-multiplicand'));
+// japaneseBoxEl.style.transform = 'rotate(-45deg)'
+    console.log(intersection);
+}
+
