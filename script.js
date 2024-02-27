@@ -9,8 +9,13 @@ const errorContainerEl = document.querySelector('.error-container');
 const spinnerEl = document.querySelector('.spinner-container');
 const japaneseContainerEl = document.querySelector('.japanese-container');
 const japaneseMultiplicationEl = document.querySelector('.japanese-multiplication');
+const japaneseBoxEl = document.querySelector('.japanese-box')
 let numberInputFirst;
-let numberInputSecond 
+let numberInputSecond;
+let inputFirstTens;
+let inputFirstUnits;
+let inputSecondTens;
+let inputSecondUnits;
 // Questa funzione decide se abilitare il pulsante Button o no in base al controllo fatto sui valori degli input immessi
 function enableBtnEl() {
     numberInputFirst = Number(inputElFirst.value);
@@ -69,6 +74,7 @@ printError = (messageError, flag) => {
 }
 
 btnEl.addEventListener('click', ()=>{
+    japaneseBoxEl.innerText ='';
     japaneseMultiplicationEl.innerText ='';
     inputElFirst.value = '';
     inputElSecond.value = '';
@@ -100,23 +106,29 @@ function printJapaneseVisualMultiplication(){
     console.log('Secondo numero: '+numberInputSecond)
     console.log(tensAndUnit(numberInputSecond))
 printMoltiplication()
+console.log(inputFirstTens)
+printParallelLine(inputFirstTens,'left','line-tens-first-multiplicand')
+printParallelLine(inputFirstUnits,'right','line-units-first-multiplicand')
+printParallelLine(inputSecondTens,'top','line-tens-second-multiplicand')
+printParallelLine(inputSecondUnits,'bottom','line-units-second-multiplicand')
 
 }
+
 
 printMoltiplication = () => {
     let multiplicationParagraph = document.createElement('p');
 
   
-    let inputFirstTens = tensAndUnit(numberInputFirst).tens;
+    inputFirstTens = tensAndUnit(numberInputFirst).tens;
    
 
-    let inputFirstUnits = tensAndUnit(numberInputFirst).units;
+    inputFirstUnits = tensAndUnit(numberInputFirst).units;
  
 
-    let inputSecondTens = tensAndUnit(numberInputSecond).tens;
+    inputSecondTens = tensAndUnit(numberInputSecond).tens;
 
 
-    let inputSecondUnits = tensAndUnit(numberInputSecond).units;
+    inputSecondUnits = tensAndUnit(numberInputSecond).units;
 
 
     multiplicationParagraph.innerHTML = `
@@ -131,5 +143,15 @@ printMoltiplication = () => {
     
     `
 
-    japaneseContainerEl.appendChild(multiplicationParagraph);
+    japaneseMultiplicationEl.appendChild(multiplicationParagraph);
+}
+
+printParallelLine =(number,direction,lineClass)=>{
+for(i=0;i<number;i++){
+    console.log(i)
+    let line = document.createElement('div');
+    line.classList.add(`${lineClass}`)
+    line.style[`${direction}`] = `${(10+i*10)/number}%`
+    japaneseBoxEl.appendChild(line)
+}
 }

@@ -90,14 +90,15 @@ p{
 .japanese-box{
     width: 400px;
 aspect-ratio: 1;
-    background-color: blanchedalmond;
-    margin-bottom: 30px;
+    background-color: transparent;
+    margin-bottom: 100px;
+    position: relative;
+    transform: rotate(45deg);
+    margin: 70px;
 }
 
 .japanese-multiplication{
-    width: 100%;
-    height: 20%;
-    background-color: blueviolet;
+    margin-top: 20px;
     display:flex;
     justify-content: center;
     align-items: center;
@@ -105,17 +106,46 @@ aspect-ratio: 1;
 
 .tens-first-multiplicand{
 color: #EE70A2;
+font-weight: 700;
 }
 
 .units-first-multiplicand{
-    color:#4DB07C
+    color:#4DB07C;
+    font-weight: 700;
+
 }
 .tens-second-multiplicand{
 color: #444040;
+font-weight: 700;
+
 }
 
 .units-second-multiplicand{
-color: #0094E4;
+color: #025988;
+font-weight: 700;
+
+}
+
+.line-tens-first-multiplicand{
+    position: absolute; 
+    height: 100%; 
+    border: 1px solid #EE70A2;
+}
+
+.line-units-first-multiplicand{
+    position: absolute; 
+    height: 100%; 
+    border: 1px solid #4DB07C;
+}
+.line-tens-second-multiplicand{
+    position: absolute; 
+    width: 100%; 
+    border: 1px solid #444040;
+}
+.line-units-second-multiplicand{
+    position: absolute; 
+    width: 100%; 
+    border: 1px solid #025988;
 }
 @media(max-width:576px){
     .input-fields-container{
