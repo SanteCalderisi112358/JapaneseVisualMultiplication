@@ -5,91 +5,46 @@ const inputContainerEl = document.querySelector('.input-fields-container');
 const inputElFirst = document.querySelector('.input.input-1');
 const inputElSecond = document.querySelector('.input.input-2');
 const btnEl = document.querySelector('.btn');
-const errorContainerEl = document.querySelector('.error-container')
+const errorContainerEl = document.querySelector('.error-container');
+const spinnerEl = document.querySelector('.spinner-container');
+const japaneseContainerEl = document.querySelector('.japanese-container');
+const japaneseMultiplicationEl = document.querySelector('.japanese-multiplication');
+let numberInputFirst;
+let numberInputSecond 
 // Questa funzione decide se abilitare il pulsante Button o no in base al controllo fatto sui valori degli input immessi
-// function enableBtnEl() {
-//     // Verifica se entrambi i campi di input contengono valori e se sono entrambi numeri interi compresi tra 0 e 99
-//     // if (Number.isInteger(parseInt(inputElFirst.value.trim(), 10)) && 
-//     //     Number.isInteger(parseInt(inputElSecond.value.trim(), 10)) && 
-//     //     parseInt(inputElFirst.value.trim(), 10) >= 0 && 
-//     //     parseInt(inputElFirst.value.trim(), 10) <= 99 && 
-//     //     parseInt(inputElSecond.value.trim(), 10) >= 0 && 
-//     //     parseInt(inputElSecond.value.trim(), 10) <= 99) {
-//     //     // Abilita il pulsante se entrambi i campi sono compilati correttamente
-//     //     btnEl.disabled = false;
-//     //     printError('');
-//     // } else {
-//     //     // Disabilita il pulsante se uno o entrambi i campi non sono compilati correttamente
-//     //     btnEl.disabled = true;
-//     //     // Stampa un messaggio di errore appropriato
-//     //     if (!Number.isInteger(parseInt(inputElFirst.value.trim(), 10)) || 
-//     //         parseInt(inputElFirst.value.trim(), 10) < 0 || 
-//     //         parseInt(inputElFirst.value.trim(), 10) > 99) {
-//     //         printError('Il primo campo deve essere un numero intero compreso tra 0 e 99');
-//     //     } else {
-//     //         printError('Il secondo campo deve essere un numero intero compreso tra 0 e 99');
-//     //     }
-//     // }
-//     let numberInputFirst = Number(inputElFirst.value)
-//     let numberInputSecond = Number(inputElSecond.value)
-//     console.log(numberInputFirst, numberInputSecond)
-//     if(inputElFirst.value.trim() !== '' && inputElSecond.value.trim() !== ''){
-// if (!Number.isInteger(numberInputFirst))
-//         printError('Inserire nel PRIMO campo un numero INTERO')
-
-//     if (!Number.isInteger(numberInputSecond))
-//         printError('Inserire nel SECONDO campo un numero INTERO')
-
-//     if (!numberInputFirst >= 0 && !numberInputFirst < 100)
-//         printError('Inserire nel PRIMO campo un numero compreso tra 0 e 100')
-//     if (!numberInputSecond >= 0 && !numberInputSecond < 100)
-//         printError('Inserire nel SECONDO campo un numero compreso tra 0 e 100')
-
-//     }else{
-//         errorContainerEl.innerHTML = '';
-//         btnEl.disabled = false;
-//     }
-    
-        
-
-// }
-
 function enableBtnEl() {
-    let numberInputFirst = Number(inputElFirst.value);
-    let numberInputSecond = Number(inputElSecond.value);
+    numberInputFirst = Number(inputElFirst.value);
+    numberInputSecond = Number(inputElSecond.value);
     console.log(numberInputFirst, numberInputSecond);
 
     if (inputElFirst.value.trim() !== '' && inputElSecond.value.trim() !== '') {
-        errorContainerEl.innerHTML = ''; // Rimuovi eventuali messaggi di errore precedenti
-        btnEl.disabled = false; // Abilita il pulsante
+        errorContainerEl.innerHTML = '';
+        btnEl.disabled = false;
         if (!Number.isInteger(numberInputFirst)){
-            printError('Inserire nel PRIMO campo un numero INTERO');
+            printError('Inserire nel PRIMO campo un numero INTERO', true);
         }
-        if (!Number.isInteger(numberInputFirst)){
-            printError('Inserire nel PRIMO campo un numero INTERO');
-        }
+       
             
 
         if (!Number.isInteger(numberInputSecond)){
-            printError('Inserire nel SECONDO campo un numero INTERO');
+            printError('Inserire nel SECONDO campo un numero INTERO',true);
 
         }
             
 
         if (!(numberInputFirst >= 0 && numberInputFirst < 100)){
-            printError('Inserire nel PRIMO campo un numero compreso tra 0 e 99');
+            printError('Inserire nel PRIMO campo un numero compreso tra 0 e 99',true);
 
         }
             
 
         if (!(numberInputSecond >= 0 && numberInputSecond < 100)){
-            printError('Inserire nel SECONDO campo un numero compreso tra 0 e 99');
+            printError('Inserire nel SECONDO campo un numero compreso tra 0 e 99',true);
 
         }
             
     } else {
-        errorContainerEl.innerHTML = ''; 
-        btnEl.disabled = true; 
+       printError('',false) 
     }
 }
 
@@ -101,14 +56,80 @@ inputElSecond.addEventListener('input', enableBtnEl);
 
 
 // Questa funziona accetta una stringa in base al tipo di errore degli input, stampa l'errore e disabilita il button
-printError = (messageError) => {
+printError = (messageError, flag) => {
     errorContainerEl.innerHTML = '';
-    let errorEl = document.createElement('p');
+    btnEl.disabled = true;
+    if(flag){
+       let errorEl = document.createElement('p');
     errorEl.classList.add('error-message')
     errorEl.innerText = `${messageError}`;
     errorEl.style.display = 'block';
-    errorContainerEl.append(errorEl);
-    btnEl.disabled = true;
+    errorContainerEl.append(errorEl);  
+    }
+}
+
+btnEl.addEventListener('click', ()=>{
+    japaneseMultiplicationEl.innerText ='';
+    inputElFirst.value = '';
+    inputElSecond.value = '';
+    spinnerShow()
+})
 
 
+function spinnerShow(){
+    spinnerEl.classList.add('d-flex')
+    setTimeout(()=>{
+        spinnerEl.classList.add('d-none')
+        printJapaneseVisualMultiplication()
+        btnEl.disabled = true;
+    },1000)
+    
+}
+
+function tensAndUnit(numberInput){
+const tens = Math.floor(numberInput/10);
+const units = numberInput%10;
+return {tens,units}
+}
+
+
+function printJapaneseVisualMultiplication(){
+    japaneseContainerEl.style.display = 'flex'
+    console.log('Primo numero: '+numberInputFirst)
+    console.log(tensAndUnit(numberInputFirst))
+    console.log('Secondo numero: '+numberInputSecond)
+    console.log(tensAndUnit(numberInputSecond))
+printMoltiplication()
+
+}
+
+printMoltiplication = () => {
+    let multiplicationParagraph = document.createElement('p');
+
+  
+    let inputFirstTens = tensAndUnit(numberInputFirst).tens;
+   
+
+    let inputFirstUnits = tensAndUnit(numberInputFirst).units;
+ 
+
+    let inputSecondTens = tensAndUnit(numberInputSecond).tens;
+
+
+    let inputSecondUnits = tensAndUnit(numberInputSecond).units;
+
+
+    multiplicationParagraph.innerHTML = `
+    
+    <span class="tens-first-multiplicand">${inputFirstTens === 0 ? '' : inputFirstTens}</span>
+    <span class="units-first-multiplicand">${inputFirstUnits}</span>
+    <span>✖️</span>
+    <span class="tens-second-multiplicand">${inputSecondTens === 0 ? '' : inputSecondTens}</span>
+    <span class="units-second-multiplicand">${inputSecondUnits}</span>
+<span>🟰</span> ${numberInputFirst*numberInputSecond}
+
+    
+    `
+
+    japaneseContainerEl.appendChild(multiplicationParagraph);
 }

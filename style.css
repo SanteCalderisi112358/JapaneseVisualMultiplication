@@ -5,13 +5,22 @@ body{
     margin: 0 auto;
     box-sizing: border-box;
     height: 100vh;
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: "Poppins", sans-serif;
 }
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
 
+p{
+    margin: 0;
+    padding: 0;
+}
 /* --STILE DEL CAMPO DI INPUT-- */
 .input-fields-container{
     background-color: aquamarine;
@@ -20,7 +29,8 @@ body{
     box-shadow: 4px 4px 6px rgba(0,0,0,0.5);
     display: flex;
     justify-content: space-evenly;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
+    position: relative;
 }
 
 .input,
@@ -45,16 +55,71 @@ body{
     width: 100%;
     display: flex;
     justify-content: center;
+    position: absolute;
+    top: -40px;
+    
 }
 
 .error-message{
     color: red;
     font-size: 13px;
     display: none;
+    text-align: center;
+}
+
+
+/* -- SPINNER -- */
+
+.spinner-container{
+    display: none;
+}
+
+/* --JAPANESE CONTAINER --*/
+.japanese-container{
+    display: none;
+    
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 10px;
+    box-shadow: 4px 4px 6px rgba(0,0,0,0.9);
+    /* display: flex; */
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.japanese-box{
+    width: 400px;
+aspect-ratio: 1;
+    background-color: blanchedalmond;
+    margin-bottom: 30px;
+}
+
+.japanese-multiplication{
+    width: 100%;
+    height: 20%;
+    background-color: blueviolet;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tens-first-multiplicand{
+color: #EE70A2;
+}
+
+.units-first-multiplicand{
+    color:#4DB07C
+}
+.tens-second-multiplicand{
+color: #444040;
+}
+
+.units-second-multiplicand{
+color: #0094E4;
 }
 @media(max-width:576px){
     .input-fields-container{
-        width: 100%;
+        width: 70%;
         flex-direction: column;
         align-items: center;
     }
@@ -62,5 +127,18 @@ body{
    
     .input{
         width: 60%;
+    }
+
+    .error-message{
+        font-size: 10px;
+    }
+
+    .japanese-container{
+        width: 100%;
+    }
+
+    .japanese-box{
+        width: 80%;
+        aspect-ratio: 1;
     }
 }
