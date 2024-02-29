@@ -13,8 +13,14 @@ const japaneseBoxEl = document.querySelector('.japanese-box')
 let numberInputFirst;
 let numberInputSecond;
 
-let isTensFirstInput;
-let isTensSecondInput;
+let areTensFirstInput;
+let areTensSecondInput;
+
+let areUnitsFirstInput;
+let areUnitsSecondInput;
+
+let areTensBothInput;
+let areUnitsBothInput;
 
 let intersection = [];
 // Questa funzione decide se abilitare il pulsante Button o no in base al controllo fatto sui valori degli input immessi
@@ -52,6 +58,8 @@ function enableBtnEl() {
     } else {
         printError('', false)
     }
+
+
 }
 
 
@@ -105,17 +113,30 @@ function tensAndUnit(numberInput) {
 }
 
 
+let checkBothUnitsAndTens = () => {
+    areTensFirstInput = numberInputFirst.tens === 0 ? false : true
+    areTensSecondInput = numberInputSecond.tens === 0 ? false : true
+    areUnitsFirstInput = numberInputFirst.units === 0 ? false : true;
+    areUnitsSecondInput = numberInputSecond.units === 0 ? false : true;
+    areTensBothInput = areTensFirstInput && areTensSecondInput;
+    areUnitsBothInput = areUnitsFirstInput && areUnitsSecondInput;
+    return areTensBothInput && areUnitsBothInput;
+   
+}
+
+console.log(checkBothUnitsAndTens)
+
+
 function printJapaneseVisualMultiplication() {
     japaneseContainerEl.style.display = 'flex';
     numberInputFirst = tensAndUnit(numberInputFirst);
     numberInputSecond = tensAndUnit(numberInputSecond);
-    isTensFirstInput = numberInputFirst.tens === 0 ? false : true
-    isTensSecondInput = numberInputSecond.tens === 0 ? false : true
+    
     printMoltiplication(numberInputFirst, numberInputSecond);
-    printParallelLine(numberInputFirst.tens, 'left', 'line-tens-first-multiplicand', isTensFirstInput);
-    printParallelLine(numberInputFirst.units, 'right', 'line-units-first-multiplicand', isTensFirstInput);
-    printParallelLine(numberInputSecond.tens, 'top', 'line-tens-second-multiplicand', isTensSecondInput);
-    printParallelLine(numberInputSecond.units, 'bottom', 'line-units-second-multiplicand', isTensSecondInput);
+    printParallelLine(numberInputFirst.tens, 'left', 'line-tens-first-multiplicand');
+    printParallelLine(numberInputFirst.units, 'right', 'line-units-first-multiplicand');
+    printParallelLine(numberInputSecond.tens, 'top', 'line-tens-second-multiplicand');
+    printParallelLine(numberInputSecond.units, 'bottom', 'line-units-second-multiplicand');
     calculateCrossPoint()
     getPointsGroupFromArrayIntersection(intersection)
     console.log(numberInputFirst, numberInputSecond)
@@ -136,17 +157,25 @@ function printMoltiplication(firstInput, secondInput) {
     japaneseMultiplicationEl.appendChild(multiplicationParagraph);
 }
 
-printParallelLine = (number, direction, lineClass, isThereTens) => {
+printParallelLine = (number, direction, lineClass) => {
+    const areBothUnitsAndTens = checkBothUnitsAndTens(); // Assegna il risultato della funzione a una variabile
+    console.log("Are Both...")
+    console.log(areBothUnitsAndTens)
     for (i = 0; i < number; i++) {
         let line = document.createElement('div');
         line.classList.add(`${lineClass}`)
         line.classList.add('line')
-        if (isThereTens)
-            line.style[`${direction}`] = `${(20 + i * 10) / number}%`
-        else line.style[`${direction}`] = `${((50 - number) + i * 10)}%`
+        if (areBothUnitsAndTens) { // Utilizza la variabile come condizione
+            console.log(`${(10 + i * 10)/number}%`)
+            line.style[`${direction}`] = `${(10 + i * 10)/(number/3)}%`
+        } else {
+            console.log(`${((10+number) + i * 10)}%`)
+            line.style[`${direction}`] = `${((10+number) + i * 10)}%`
+        }
         japaneseBoxEl.appendChild(line)
     }
 }
+
 
 calculateCrossPoint = () => {
 
@@ -207,27 +236,27 @@ getPointsGroupFromArrayIntersection = (arrayIntersections) => {
     console.log(lastPointsGroup);
 
     const midPointFirstGroup = calculateMidPoint(firstPointsGroup);
-    if(firstPointsGroup!=lastPointsGroup){
-if (midPointFirstGroup) {
-        printRectangles(midPointFirstGroup, false, 'first');
-    }
+    if (firstPointsGroup != lastPointsGroup) {
+        if (midPointFirstGroup) {
+            printRectangles(midPointFirstGroup, false, 'first');
+        }
 
-    const midPointMiddleGroup = calculateMidPoint(middlePointsGroup);
-    if (midPointMiddleGroup) {
-        printRectangles(midPointMiddleGroup, true, 'middle');
-    }
+        const midPointMiddleGroup = calculateMidPoint(middlePointsGroup);
+        if (midPointMiddleGroup) {
+            printRectangles(midPointMiddleGroup, true, 'middle');
+        }
 
-    const midPointLastGroup = calculateMidPoint(lastPointsGroup);
-    if (midPointLastGroup) {
-        printRectangles(midPointLastGroup, false, 'last');
-    }
-}else{
-    if (midPointFirstGroup) {
-        printRectangles(midPointFirstGroup, false, 'last');
+        const midPointLastGroup = calculateMidPoint(lastPointsGroup);
+        if (midPointLastGroup) {
+            printRectangles(midPointLastGroup, false, 'last');
+        }
+    } else {
+        if (midPointFirstGroup) {
+            printRectangles(midPointFirstGroup, false, 'last');
+        }
     }
 }
-    }
-    
+
 
 calculateMidPoint = (pointsGroup) => {
     if (!pointsGroup || pointsGroup.length === 0) {
@@ -249,7 +278,7 @@ calculateMidPoint = (pointsGroup) => {
     return { x: midPointX, y: midPointY };
 }
 
-printRectangles = (middlePoint, flag = false,groupPoints) => {
+printRectangles = (middlePoint, flag = false, groupPoints) => {
     if (!middlePoint) {
         return;
     }
@@ -276,17 +305,17 @@ printRectangles = (middlePoint, flag = false,groupPoints) => {
     printNumber(`${groupPoints}`);
 }
 
-printNumber=(groupPoints)=>{
-const spanElNumber = document.querySelector(`.span-number-${groupPoints}`);
-if(groupPoints==='first'){
-    spanElNumber.innerText = `${(numberInputFirst.tens===0?1:numberInputFirst.tens)*(numberInputSecond.tens===0?1:numberInputSecond.tens)}`
-}
-if(groupPoints==='middle'){
-    spanElNumber.innerText = `${numberInputFirst.tens*numberInputSecond.units + numberInputFirst.units*numberInputSecond.tens}`
-}
-if(groupPoints==='last'){
-    spanElNumber.innerText = `${numberInputFirst.units*numberInputSecond.units}`
-}
+printNumber = (groupPoints) => {
+    const spanElNumber = document.querySelector(`.span-number-${groupPoints}`);
+    if (groupPoints === 'first') {
+        spanElNumber.innerText = `${(numberInputFirst.tens === 0 ? 1 : numberInputFirst.tens) * (numberInputSecond.tens === 0 ? 1 : numberInputSecond.tens)}`
+    }
+    if (groupPoints === 'middle') {
+        spanElNumber.innerText = `${numberInputFirst.tens * numberInputSecond.units + numberInputFirst.units * numberInputSecond.tens}`
+    }
+    if (groupPoints === 'last') {
+        spanElNumber.innerText = `${numberInputFirst.units * numberInputSecond.units}`
+    }
 
 }
 
