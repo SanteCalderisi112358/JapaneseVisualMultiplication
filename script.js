@@ -22,6 +22,7 @@ let areUnitsSecondInput;
 let areTensBothInput;
 let areUnitsBothInput;
 
+let areBothUnitsAndTens;
 let intersection = [];
 // Questa funzione decide se abilitare il pulsante Button o no in base al controllo fatto sui valori degli input immessi
 function enableBtnEl() {
@@ -84,6 +85,15 @@ printError = (messageError, flag) => {
 
 btnEl.addEventListener('click', () => {
     intersection = []
+    areTensFirstInput = false;
+    areTensSecondInput = false;
+    areUnitsFirstInput = false;
+    areUnitsSecondInput = false;
+    areTensBothInput = false;
+    areUnitsBothInput = false;
+    areBothUnitsAndTens = false;
+    const curves = document.querySelectorAll('.curved');
+        curves.forEach(curve => curve.style.display = 'none')
     japaneseBoxEl.style.transform = 'rotate(0deg)'
     japaneseBoxEl.innerText = '';
     japaneseMultiplicationEl.innerText = '';
@@ -108,30 +118,28 @@ function spinnerShow() {
 function tensAndUnit(numberInput) {
     const tens = Math.floor(numberInput / 10);
     const units = numberInput % 10;
-
     return { tens, units }
 }
 
 
 let checkBothUnitsAndTens = () => {
-    areTensFirstInput = numberInputFirst.tens === 0 ? false : true
-    areTensSecondInput = numberInputSecond.tens === 0 ? false : true
-    areUnitsFirstInput = numberInputFirst.units === 0 ? false : true;
-    areUnitsSecondInput = numberInputSecond.units === 0 ? false : true;
-    areTensBothInput = areTensFirstInput && areTensSecondInput;
-    areUnitsBothInput = areUnitsFirstInput && areUnitsSecondInput;
-    return areTensBothInput && areUnitsBothInput;
-   
+
+
 }
 
-console.log(checkBothUnitsAndTens)
 
 
 function printJapaneseVisualMultiplication() {
     japaneseContainerEl.style.display = 'flex';
     numberInputFirst = tensAndUnit(numberInputFirst);
     numberInputSecond = tensAndUnit(numberInputSecond);
-    
+    areTensFirstInput = numberInputFirst.tens === 0 ? false : true
+    areTensSecondInput = numberInputSecond.tens === 0 ? false : true
+    areUnitsFirstInput = numberInputFirst.units === 0 ? false : true;
+    areUnitsSecondInput = numberInputSecond.units === 0 ? false : true;
+    areTensBothInput = areTensFirstInput && areTensSecondInput;
+    areUnitsBothInput = areUnitsFirstInput && areUnitsSecondInput;
+    areBothUnitsAndTens = areTensBothInput && areUnitsBothInput;
     printMoltiplication(numberInputFirst, numberInputSecond);
     printParallelLine(numberInputFirst.tens, 'left', 'line-tens-first-multiplicand');
     printParallelLine(numberInputFirst.units, 'right', 'line-units-first-multiplicand');
@@ -158,19 +166,15 @@ function printMoltiplication(firstInput, secondInput) {
 }
 
 printParallelLine = (number, direction, lineClass) => {
-    const areBothUnitsAndTens = checkBothUnitsAndTens(); // Assegna il risultato della funzione a una variabile
-    console.log("Are Both...")
-    console.log(areBothUnitsAndTens)
+
     for (i = 0; i < number; i++) {
         let line = document.createElement('div');
         line.classList.add(`${lineClass}`)
         line.classList.add('line')
         if (areBothUnitsAndTens) { // Utilizza la variabile come condizione
-            console.log(`${(10 + i * 10)/number}%`)
-            line.style[`${direction}`] = `${(10 + i * 10)/(number/3)}%`
+            line.style[`${direction}`] = `${(10 + i * 10) / (number / 3)}%`
         } else {
-            console.log(`${((10+number) + i * 10)}%`)
-            line.style[`${direction}`] = `${((10+number) + i * 10)}%`
+            line.style[`${direction}`] = `${((10 + number) / number + i * 10)}%`
         }
         japaneseBoxEl.appendChild(line)
     }
@@ -235,26 +239,74 @@ getPointsGroupFromArrayIntersection = (arrayIntersections) => {
     console.log("Ultimo Gruppo di punti:");
     console.log(lastPointsGroup);
 
-    const midPointFirstGroup = calculateMidPoint(firstPointsGroup);
-    if (firstPointsGroup != lastPointsGroup) {
-        if (midPointFirstGroup) {
-            printRectangles(midPointFirstGroup, false, 'first');
-        }
 
-        const midPointMiddleGroup = calculateMidPoint(middlePointsGroup);
-        if (midPointMiddleGroup) {
-            printRectangles(midPointMiddleGroup, true, 'middle');
-        }
-
-        const midPointLastGroup = calculateMidPoint(lastPointsGroup);
-        if (midPointLastGroup) {
-            printRectangles(midPointLastGroup, false, 'last');
-        }
-    } else {
-        if (midPointFirstGroup) {
-            printRectangles(midPointFirstGroup, false, 'last');
-        }
+    if (areBothUnitsAndTens) {
+        console.log("1 CASO GENERALE IN CUI ENTRAMBI GLI INPUT HANNO SIA DECINE CHE UNITA'. Es 23,12")
+        printRectangle(firstPointsGroup, false)
+        printRectangle(middlePointsGroup, true)
+        printRectangle(lastPointsGroup, false)
     }
+    else {
+        console.log("areTensBothInput:", areTensBothInput);
+        console.log("areUnitsSecondInput:", areUnitsSecondInput);
+        console.log("2 CASO IN CUI IL PRIMO INPUT HA DECINE E UNITA, MENTRE IL SECONDO NON HA UNIA' (23,40)");
+        printRectangle(firstPointsGroup, false);
+        printRectangle(lastPointsGroup, false);
+    }
+
+
+    // /* 3 CASO IN CUI IL PRIMO INPUT HA DECINE E UNITA, MENTRE IL SECONDO NON HA DECINE' (23,4)*/
+    // else if (areUnitsBothInput && !areTensSecondInput) {
+    //     console.log("3 CASO IN CUI IL PRIMO INPUT HA DECINE E UNITA, MENTRE IL SECONDO NON HA DECINE' (23,4)")
+    //     printRectangles(firstPointsGroup)
+    //     printRectangles(lastPointsGroup)
+    // }
+
+    // /* 4 CASO IN CUI IL PRIMO INPUT HA UNITà E NON HA DECINE, MENTRE IL SECONDO HA DECINE E UNITà (2,42) */
+    // else if (areUnitsBothInput && !areTensFirstInput) {
+    //     console.log("4 CASO IN CUI IL PRIMO INPUT HA UNITà E NON HA DECINE, MENTRE IL SECONDO HA DECINE E UNITà (2,42)")
+    //     printRectangles(firstPointsGroup)
+    //     printRectangles(lastPointsGroup)
+    // }
+    // /*5 CASO IN CUI IL PRIMO INPUT HA DECINE E NON UNITA, MENTRE IL SECONDO HA DECINE E  UNIA' (20,42)*/
+    // else if (areTensFirstInput && !areUnitsFirstInput && areUnitsSecondInput && areTensSecondInput) {
+    //     console.log("5 CASO IN CUI IL PRIMO INPUT HA DECINE E NON UNITA, MENTRE IL SECONDO HA DECINE E  UNIA' (20,42)")
+    //     printRectangles(firstPointsGroup)
+    //     printRectangles(lastPointsGroup)
+    // }
+    // else if(firstPointsGroup===lastPointsGroup){
+
+    // }
+
+
+
+
+
+
+
+
+
+
+    // const midPointFirstGroup = calculateMidPoint(firstPointsGroup);
+    // if (firstPointsGroup != lastPointsGroup) {
+    //     if (midPointFirstGroup) {
+    //         printRectangles(midPointFirstGroup, false, 'first');
+    //     }
+
+    //     const midPointMiddleGroup = calculateMidPoint(middlePointsGroup);
+    //     if (midPointMiddleGroup) {
+    //         printRectangles(midPointMiddleGroup, true, 'middle');
+    //     }
+
+    //     const midPointLastGroup = calculateMidPoint(lastPointsGroup);
+    //     if (midPointLastGroup) {
+    //         printRectangles(midPointLastGroup, false, 'last');
+    //     }
+    // } else {
+    //     if (midPointFirstGroup) {
+    //         printRectangles(midPointFirstGroup, false, 'last');
+    //     }
+    // }
 }
 
 
@@ -278,33 +330,78 @@ calculateMidPoint = (pointsGroup) => {
     return { x: midPointX, y: midPointY };
 }
 
-printRectangles = (middlePoint, flag = false, groupPoints) => {
-    if (!middlePoint) {
-        return;
-    }
+printRectangles = (pointsGroup, areMiddleGroup) => {
 
-    console.log(middlePoint);
+    console.log("printRect...")
+    console.log(pointsGroup)
+    // console.log(middlePoint);
+    // const rect = document.createElement('div');
+    // const number = document.createElement('span');
+    // number.classList.add('span-number')
+    // number.classList.add(`span-number-${groupPoints}`);
+    // rect.appendChild(number);
+    // if (flag) {
+    //     rect.style.transform = 'rotate(45deg)';
+    //     rect.classList.add('rect-middle-points');
+    // } else {
+    //     rect.classList.add('rect-points');
+    //     rect.style.transform = 'rotate(313deg)';
+    //     rect.style.left = `${middlePoint.x - 4}%`;
+    //     rect.style.top = `${middlePoint.y - 4}%`;
+    //     rect.style.width = `${30 + numberInputFirst.tens * numberInputSecond.tens}px`;
+    //     rect.style.height = `${50 + numberInputFirst.tens * numberInputSecond.tens}px`;
+    // }
+
+    // japaneseBoxEl.appendChild(rect);
+    // printNumber(`${groupPoints}`);
+}
+printRectangle = (pointsGroup, areMiddleGroup) => {
+    let margin = 10; // Valore del margine in percentuale
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+
+    // Trova i valori minimi e massimi di x e y tra tutti i punti
+    pointsGroup.forEach(point => {
+        minX = Math.min(minX, point.x);
+        minY = Math.min(minY, point.y);
+        maxX = Math.max(maxX, point.x);
+        maxY = Math.max(maxY, point.y);
+    });
+
+    // Aggiungi il margine ai limiti del rettangolo
+    minX -= margin;
+    minY -= margin;
+    maxX += margin;
+    maxY += margin;
+
+    // Assicura che i valori non siano inferiori a 0
+    minX = Math.max(0, minX);
+    minY = Math.max(0, minY);
+
+    const rectWidth = maxX - minX; // Calcola la larghezza del rettangolo
+    const rectHeight = maxY - minY; // Calcola l'altezza del rettangolo
+    const rectX = minX; // Posizione x del rettangolo
+    const rectY = minY; // Posizione y del rettangolo
+    if (areMiddleGroup) {
+        const curves = document.querySelectorAll('.curved');
+        curves.forEach(curve => curve.style.display = 'block')
+    }
     const rect = document.createElement('div');
     const number = document.createElement('span');
     number.classList.add('span-number')
-    number.classList.add(`span-number-${groupPoints}`);
-    rect.appendChild(number);
-    if (flag) {
-        rect.style.transform = 'rotate(45deg)';
-        rect.classList.add('rect-middle-points');
-    } else {
-        rect.classList.add('rect-points');
-        rect.style.transform = 'rotate(313deg)';
-        rect.style.left = `${middlePoint.x - 4}%`;
-        rect.style.top = `${middlePoint.y - 4}%`;
-        rect.style.width = `${30 + numberInputFirst.tens * numberInputSecond.tens}px`;
-        rect.style.height = `${50 + numberInputFirst.tens * numberInputSecond.tens}px`;
-    }
+    areMiddleGroup ? number.classList.add('span-number-middle') : number.classList.add('span-number-no-middle')
+    number.innerText = `${pointsGroup.length}`
+    rect.appendChild(number)
+    rect.classList.add('rect-points');
+    rect.style.left = areMiddleGroup ? `${rectX + 20}%` : `${rectX}%`; // Imposta la posizione x del rettangolo
+    rect.style.top = areMiddleGroup ? `${rectY - 20}%` : `${rectY}%`; // Imposta la posizione y del rettangolo
+    rect.style.width = areMiddleGroup ? `${rectWidth - 30}%` : `${rectWidth}%`; // Imposta la larghezza del rettangolo
+    rect.style.height = areMiddleGroup ? `${rectHeight + 30}%` : `${rectHeight}%`; // Imposta l'altezza del rettangolo
 
     japaneseBoxEl.appendChild(rect);
-    printNumber(`${groupPoints}`);
 }
-
 printNumber = (groupPoints) => {
     const spanElNumber = document.querySelector(`.span-number-${groupPoints}`);
     if (groupPoints === 'first') {

@@ -15,7 +15,10 @@ main{
     flex-direction: column;
     align-items: center;
     width: 100%;
+    overflow: hidden;
+    max-width: 800px;
     /* margin-top: 200px; */
+    padding-bottom: 200px;
 }
 
 p{
@@ -74,18 +77,7 @@ p{
     text-align: center;
 }
 
-.x{
-    position: absolute;
-    bottom: 0;
-    right: 0;
 
-}
-
-.y {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
 /* -- SPINNER -- */
 
 .spinner-container{
@@ -103,11 +95,11 @@ p{
     align-items: center;
     padding: 40px 20px;
     width: 700px;
+    position: relative;
 }
 
 .japanese-box{
-    border-left: 1px solid black;
-    border-bottom: 1px solid black;
+   
     width: 400px;
 aspect-ratio: 1;
     background-color: transparent;
@@ -148,43 +140,44 @@ font-weight: 700;
 .line-tens-first-multiplicand{
     position: absolute; 
     height: 100%; 
-    border: 1px solid #EE70A2;
+    border: 3px solid #EE70A2;
 }
 
 .line-units-first-multiplicand{
     position: absolute; 
     height: 100%; 
-    border: 1px solid #4DB07C;
+    border: 3px solid #4DB07C;
 }
 .line-tens-second-multiplicand{
     position: absolute; 
     width: 100%; 
-    border: 1px solid #444040;
+    border: 3px solid #444040;
 }
 .line-units-second-multiplicand{
     position: absolute; 
     width: 100%; 
-    border: 1px solid #025988;
+    border: 3px solid #025988;
 }
 
 .intersection-circle{
     position: absolute;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
 border: 1px solid black;
 }
 
 
 .rect-points{
     position: absolute;
-    border: 1px dotted rgba(0,0,0,0.5);
+    border: 5px dotted rgba(0,0,0,0.5);
     border-radius: 2px;
+    transform: rotate(45deg);
 }
 
 .rect-middle-points{
     position: absolute;
-    border: 1px dotted rgba(0,0,0,0.5);
+    border: 1px dashed rgba(0,0,0,0.5);
     border-radius: 2px;
     height: 117%;
     left: 40%;
@@ -195,8 +188,10 @@ border: 1px solid black;
 .span-number{
     position: absolute;
     font-weight: 500;
-    font-size: 21px;
-    top: 75%;
+    font-size: 20px;
+    top: 85%;
+    left: 85%;
+    color: #757575;
 
 }
 
@@ -206,9 +201,28 @@ border: 1px solid black;
 .span-number-middle{
 top: 50%;
 left: 50%;
+transform: translateX(-50%);
 }
 .span-number-last{
     transform: rotate(91deg);
+}
+
+.curved{
+    border: 2px solid #ff000052;
+    position: absolute;
+    width:90%;
+    top: 20%;
+    height: 50%;
+    border-radius: 34%;
+    display: none;
+
+}
+
+.curved-left{
+    left: -50%;
+}
+.curved-right{
+right: -50%;
 }
 @media(max-width:576px){
     .input-fields-container{
@@ -233,7 +247,11 @@ left: 50%;
     }
 
     .intersection-circle{
-        width: 7px;
-        height: 7px;
+        width: 8px;
+        height: 8px;
+    }
+
+    .span-number{
+        font-size: 20px;
     }
 }
