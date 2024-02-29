@@ -15,7 +15,7 @@ main{
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-top: 100px;
+    /* margin-top: 200px; */
 }
 
 p{
@@ -32,11 +32,17 @@ p{
     justify-content: space-evenly;
     margin-bottom: 40px;
     position: relative;
+    max-width: 400px;
+  
 }
 
 .input,
 .btn{
     margin: 5px;
+}
+
+.input{
+    width: 100px;
 }
 
 .btn{
@@ -57,7 +63,7 @@ p{
     display: flex;
     justify-content: center;
     position: absolute;
-    top: -40px;
+   bottom: -60px;
     
 }
 
@@ -68,7 +74,18 @@ p{
     text-align: center;
 }
 
+.x{
+    position: absolute;
+    bottom: 0;
+    right: 0;
 
+}
+
+.y {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
 /* -- SPINNER -- */
 
 .spinner-container{
@@ -78,7 +95,6 @@ p{
 /* --JAPANESE CONTAINER --*/
 .japanese-container{
     display: none;
-    
     background-color: rgba(0,0,0,0.1);
     border-radius: 10px;
     box-shadow: 4px 4px 6px rgba(0,0,0,0.9);
@@ -86,9 +102,12 @@ p{
     flex-direction: column;
     align-items: center;
     padding: 40px 20px;
+    width: 700px;
 }
 
 .japanese-box{
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
     width: 400px;
 aspect-ratio: 1;
     background-color: transparent;
@@ -155,17 +174,50 @@ font-weight: 700;
     height: 10px;
 border: 1px solid black;
 }
+
+
+.rect-points{
+    position: absolute;
+    border: 1px dotted rgba(0,0,0,0.5);
+    border-radius: 2px;
+}
+
+.rect-middle-points{
+    position: absolute;
+    border: 1px dotted rgba(0,0,0,0.5);
+    border-radius: 2px;
+    height: 117%;
+    left: 40%;
+    width: 20%;
+    bottom: -5%;
+}
+
+.span-number{
+    position: absolute;
+    font-weight: 500;
+    font-size: 21px;
+    top: 75%;
+
+}
+
+.span-number-first{
+    transform: rotate(91deg);
+}
+.span-number-middle{
+top: 50%;
+left: 50%;
+}
+.span-number-last{
+    transform: rotate(91deg);
+}
 @media(max-width:576px){
     .input-fields-container{
-        width: 70%;
+        width: 200px;
         flex-direction: column;
         align-items: center;
+        margin-top: 250px;
     }
 
-   
-    .input{
-        width: 60%;
-    }
 
     .error-message{
         font-size: 10px;
@@ -178,5 +230,10 @@ border: 1px solid black;
     .japanese-box{
         width: 80%;
         aspect-ratio: 1;
+    }
+
+    .intersection-circle{
+        width: 7px;
+        height: 7px;
     }
 }
