@@ -21,10 +21,7 @@ main{
     padding-bottom: 200px;
 }
 
-p{
-    margin: 0;
-    padding: 0;
-}
+
 /* --STILE DEL CAMPO DI INPUT-- */
 .input-fields-container{
     background-color: aquamarine;
@@ -115,6 +112,10 @@ aspect-ratio: 1;
     align-items: center;
 }
 
+.hundreds-first-multiplicand{
+    color: #b6b81d;
+font-weight: 700;
+}
 .tens-first-multiplicand{
 color: #EE70A2;
 font-weight: 700;
@@ -124,6 +125,11 @@ font-weight: 700;
     color:#4DB07C;
     font-weight: 700;
 
+}
+
+.hundreds-second-multiplicand{
+    color: #b6b81d;
+font-weight: 700;
 }
 .tens-second-multiplicand{
 color: #444040;
@@ -136,7 +142,11 @@ color: #025988;
 font-weight: 700;
 
 }
-
+.line-hundreds-first-multiplicand{
+    position: absolute; 
+    height: 100%; 
+    border: 3px solid #728302;
+}
 .line-tens-first-multiplicand{
     position: absolute; 
     height: 100%; 
@@ -147,6 +157,12 @@ font-weight: 700;
     position: absolute; 
     height: 100%; 
     border: 3px solid #4DB07C;
+}
+.line-hundreds-second-multiplicand{
+    position: absolute; 
+    width: 100%; 
+    border: 3px solid #a16f04;
+    
 }
 .line-tens-second-multiplicand{
     position: absolute; 
@@ -228,11 +244,10 @@ position: absolute;
 
 
 
-.span-final-multiplication{
+.final-multiplication{
     color: red;
     font-size: 30px;
     font-weight: 400;
-    margin-top: 60%;
 }
 
 .curved{

@@ -13,16 +13,13 @@ const japaneseBoxEl = document.querySelector('.japanese-box')
 let numberInputFirst;
 let numberInputSecond;
 
-let areTensFirstInput;
-let areTensSecondInput;
 
-let areUnitsFirstInput;
-let areUnitsSecondInput;
-
-let areTensBothInput;
-let areUnitsBothInput;
 
 let areBothUnitsAndTens;
+let areBothHundreds;
+let areHundredsOnlyFirst;
+let areHundredsOnlySecond;
+
 let intersection = [];
 // Questa funzione decide se abilitare il pulsante Button o no in base al controllo fatto sui valori degli input immessi
 function enableBtnEl() {
@@ -104,22 +101,49 @@ function spinnerShow() {
     setTimeout(() => {
         spinnerEl.classList.add('d-none')
         printJapaneseVisualMultiplication()
+        printMoltiplication(numberInputFirst, numberInputSecond)
+        calculateCrossPoint()
+        getPointsGroupFromArrayIntersection(intersection)
+        japaneseBoxEl.style.transform = 'rotate(-45deg)'
+
+        if (areBothUnitsAndTens) {
+            printNumber()
+        }
         btnEl.disabled = true;
     }, 1000)
 
 }
 
 function tensAndUnit(numberInput) {
-    const hundreds = Math.floor(numberInput / 100);
-    const tens = Math.floor(numberInput / 10);
-    const units = numberInput % 10;
-    return { hundreds, tens, units }
+    let hundreds = Math.floor(numberInput / 100);
+    let tens = Math.floor((numberInput % 100) / 10); // Calcoliamo le decine correttamente
+    let units = numberInput % 10;
+
+    return { hundreds, tens, units };
 }
 
 
+
 let checkBothUnitsAndTens = () => {
+    let areHundredsFirstInput = numberInputFirst.hundreds === 0 ? false : true
+    let areHundredsSecondInput = numberInputSecond.hundreds === 0 ? false : true
+    let areTensFirstInput = numberInputFirst.tens === 0 ? false : true
+    let areTensSecondInput = numberInputSecond.tens === 0 ? false : true
+    let areUnitsFirstInput = numberInputFirst.units === 0 ? false : true;
+    let areUnitsSecondInput = numberInputSecond.units === 0 ? false : true;
+    let areTensBothInput = areTensFirstInput && areTensSecondInput;
+    let areUnitsBothInput = areUnitsFirstInput && areUnitsSecondInput;
+    areHundredsOnlyFirst = (numberInputFirst.hundreds !== 0 && numberInputSecond.hundreds == 0) ? true : false
+    areHundredsOnlySecond = (numberInputSecond.hundreds !== 0 && numberInputFirst.hundreds == 0) ? true : false
+    areBothUnitsAndTens = areTensBothInput && areUnitsBothInput;
+    areBothHundreds = areHundredsFirstInput && areHundredsSecondInput
 
-
+    /**Condizioni centinaia */
+    console.log(areBothUnitsAndTens)
+    console.log(areBothHundreds)
+    console.log(areHundredsOnlyFirst)
+    console.log(areHundredsOnlySecond)
+    console.log(numberInputFirst, numberInputSecond)
 }
 
 
@@ -128,41 +152,46 @@ function printJapaneseVisualMultiplication() {
     japaneseContainerEl.style.display = 'flex';
     numberInputFirst = tensAndUnit(numberInputFirst);
     numberInputSecond = tensAndUnit(numberInputSecond);
-    areTensFirstInput = numberInputFirst.tens === 0 ? false : true
-    areTensSecondInput = numberInputSecond.tens === 0 ? false : true
-    areUnitsFirstInput = numberInputFirst.units === 0 ? false : true;
-    areUnitsSecondInput = numberInputSecond.units === 0 ? false : true;
-    areTensBothInput = areTensFirstInput && areTensSecondInput;
-    areUnitsBothInput = areUnitsFirstInput && areUnitsSecondInput;
-    areBothUnitsAndTens = areTensBothInput && areUnitsBothInput;
-    printMoltiplication(numberInputFirst, numberInputSecond);
-    printParallelLine(numberInputFirst.tens, 'left', 'line-tens-first-multiplicand');
-    printParallelLine(numberInputFirst.units, 'right', 'line-units-first-multiplicand');
-    printParallelLine(numberInputSecond.tens, 'top', 'line-tens-second-multiplicand');
-    printParallelLine(numberInputSecond.units, 'bottom', 'line-units-second-multiplicand');
-    calculateCrossPoint()
-    getPointsGroupFromArrayIntersection(intersection)
-    if(areBothUnitsAndTens){
-       printNumber() 
-    }
-    
-    
-
-    console.log(numberInputFirst, numberInputSecond)
-    japaneseBoxEl.style.transform = 'rotate(-45deg)'
+    checkBothUnitsAndTens()
+    /** CASO IN CUI NON CI SONO CENTINAIA */
+   if (areBothHundreds) {
+        printParallelLine(numberInputFirst.hundreds, 'left', 'line-hundreds-first-multiplicand');
+        printParallelLine(numberInputSecond.hundreds, 'top', 'line-hundreds-second-multiplicand');
+      
+    }else if(areHundredsOnlyFirst){
+        printParallelLine(numberInputFirst.hundreds, 'left', 'line-hundreds-first-multiplicand');
+        printParallelLine(numberInputSecond.tens, 'top', 'line-tens-second-multiplicand');
+        printParallelLine(numberInputSecond.units, 'bottom', 'line-units-second-multiplicand');
+      
+    }else if(areHundredsOnlySecond){
+        printParallelLine(numberInputSecond.hundreds, 'top', 'line-hundreds-second-multiplicand');
+        printParallelLine(numberInputFirst.tens, 'left', 'line-tens-first-multiplicand');
+        printParallelLine(numberInputFirst.units, 'right', 'line-units-first-multiplicand');
+      
+    }else  if (!areBothHundreds) {
+        
+        printParallelLine(numberInputFirst.tens, 'left', 'line-tens-first-multiplicand');
+        printParallelLine(numberInputFirst.units, 'right', 'line-units-first-multiplicand');
+        printParallelLine(numberInputSecond.tens, 'top', 'line-tens-second-multiplicand');
+        printParallelLine(numberInputSecond.units, 'bottom', 'line-units-second-multiplicand');
+       
+        /**CASO IN CUI ENTRAMBI GLI INPUT SONO 100 */
+    } 
 }
 
 
 function printMoltiplication(firstInput, secondInput) {
     let multiplicationParagraph = document.createElement('p');
-    multiplicationParagraph.classList.add('span-final-multiplication')
+    multiplicationParagraph.classList.add('final-multiplication')
     multiplicationParagraph.innerHTML = `
-        <span class="tens-first-multiplicand">${firstInput.tens === 0 ? '' : firstInput.tens}</span>
+    <span class="hundreds-first-multiplicand">${firstInput.hundreds === 0 ? '' : firstInput.hundreds}</span>
+        <span class="tens-first-multiplicand">${firstInput.tens}</span>
         <span class="units-first-multiplicand">${firstInput.units}</span>
         <span>✖️</span>
-        <span class="tens-second-multiplicand">${secondInput.tens === 0 ? '' : secondInput.tens}</span>
+        <span class="hundreds-second-multiplicand">${secondInput.hundreds === 0 ? '' : secondInput.hundreds}</span>
+        <span class="tens-second-multiplicand">${secondInput.tens}</span>
         <span class="units-second-multiplicand">${secondInput.units}</span>
-        <span>🟰</span> ${(firstInput.tens * 10 + firstInput.units) * (secondInput.tens * 10 + secondInput.units)}
+        <span>🟰</span> ${(firstInput.hundreds * 100 + firstInput.tens * 10 + firstInput.units) * (secondInput.hundreds * 100 + secondInput.tens * 10 + secondInput.units)}
     `;
     japaneseMultiplicationEl.appendChild(multiplicationParagraph);
 }
@@ -180,7 +209,7 @@ printParallelLine = (number, direction, lineClass) => {
 
 
 calculateCrossPoint = () => {
-
+console.log("ciao")
 
     const japaneseBoxElCoords = japaneseBoxEl.getBoundingClientRect();
     const japaneseBoxElWidth = japaneseBoxElCoords.width;
@@ -221,6 +250,11 @@ calculateCrossPoint = () => {
     calculateIntersection(document.querySelectorAll('.line-tens-first-multiplicand'), document.querySelectorAll('.line-units-second-multiplicand'));
     calculateIntersection(document.querySelectorAll('.line-units-first-multiplicand'), document.querySelectorAll('.line-tens-second-multiplicand'));
     calculateIntersection(document.querySelectorAll('.line-units-first-multiplicand'), document.querySelectorAll('.line-units-second-multiplicand'));
+    calculateIntersection(document.querySelectorAll('.line-hundreds-first-multiplicand'), document.querySelectorAll('.line-hundreds-second-multiplicand'));
+    calculateIntersection(document.querySelectorAll('.line-hundreds-first-multiplicand'), document.querySelectorAll('.line-tens-second-multiplicand'));
+    calculateIntersection(document.querySelectorAll('.line-hundreds-first-multiplicand'), document.querySelectorAll('.line-units-second-multiplicand'));
+    calculateIntersection(document.querySelectorAll('.line-hundreds-second-multiplicand'), document.querySelectorAll('.line-tens-first-multiplicand'));
+    calculateIntersection(document.querySelectorAll('.line-hundreds-second-multiplicand'), document.querySelectorAll('.line-units-first-multiplicand'));
     // japaneseBoxEl.style.transform = 'rotate(-45deg)'
     console.log(intersection);
 }
@@ -253,31 +287,15 @@ getPointsGroupFromArrayIntersection = (arrayIntersections) => {
 }
 
 
-calculateMidPoint = (pointsGroup) => {
-    if (!pointsGroup || pointsGroup.length === 0) {
-        return null;
-    }
-
-    const totalPoints = pointsGroup.length;
-    let sumX = 0;
-    let sumY = 0;
-
-    for (let i = 0; i < totalPoints; i++) {
-        sumX += pointsGroup[i].x;
-        sumY += pointsGroup[i].y;
-    }
-
-    const midPointX = sumX / totalPoints;
-    const midPointY = sumY / totalPoints;
-
-    return { x: midPointX, y: midPointY };
-}
-
 
 printRectangle = (pointsGroup, areMiddleGroup) => {
+
+    console.log("PRINT RETT-tens*10")
     if (pointsGroup === undefined) {
         return;
     }
+
+    console.log(tensAndUnit(pointsGroup.length).tens)
     let margin = 10; // Valore del margine in percentuale
     let minX = Infinity;
     let minY = Infinity;
@@ -311,7 +329,7 @@ printRectangle = (pointsGroup, areMiddleGroup) => {
     const number = document.createElement('div');
     number.classList.add('container-number')
     areMiddleGroup ? number.classList.add('span-number-middle') : number.classList.add('span-number-no-middle')
-    number.innerHTML = `<div class="tens-units-number"><span class="span-tens">${tensAndUnit(pointsGroup.length).tens === 0 ? '' : tensAndUnit(pointsGroup.length).tens}</span><span class="span-units">${tensAndUnit(pointsGroup.length).units}</span></div>`
+    number.innerHTML = `<div class="tens-units-number"><span class="span-tens">${tensAndUnit(pointsGroup.length).hundreds === 0 ? '' : tensAndUnit(pointsGroup.length).hundreds}</span><span class="span-tens">${tensAndUnit(pointsGroup.length).tens === 0 ? '' : tensAndUnit(pointsGroup.length).tens}</span><span class="span-units">${tensAndUnit(pointsGroup.length).units}</span></div>`
     rect.appendChild(number)
     rect.classList.add('rect-points');
     rect.style.left = areMiddleGroup ? `${rectX + 15}%` : `${rectX}%`; // Imposta la posizione x del rettangolo
@@ -331,11 +349,11 @@ printNumber = () => {
 
     let numbersArray = Array.from(numbersSpanEls).map(span => parseInt(span.innerText))
 
-console.log(numbersArray.length)
+    console.log(numbersArray.length)
     let firstMultiplicationElement = numbersSpanEls[0].querySelector('.span-units');
-    firstMultiplicationElement.classList.add('span-final-multiplication')
+    firstMultiplicationElement.classList.add('final-multiplication')
     numbersArray.forEach((number, i) => {
-        if (i <= numbersArray.length-2) {
+        if (i <= numbersArray.length - 2) {
             let nextNumber = numbersArray[i + 1];
             number = numbersArray[i - 1] ? number + tensAndUnit(numbersArray[i - 1]).tens : number
             let nextNumberSpanEl = numbersSpanEls[i + 1]
@@ -344,24 +362,30 @@ console.log(numbersArray.length)
                 let nextPlusTens = document.createElement('div')
                 nextPlusTens.classList.add('plus-container')
                 if (i !== 1 && nextNumberSpanEl) {
-                    nextPlusTens.innerHTML = `<span class="plus">➕</span><span class="span-tens added-units">${tensAndUnit(number).tens}</span><span class="equals">🟰<span class="span-tens">${tensAndUnit(nextNumber + tensAndUnit(number).tens).tens === 0 ? '' : tensAndUnit(nextNumber + tensAndUnit(number).tens).tens}</span><span class="span-final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).units}</span>`
+                    nextPlusTens.innerHTML = `<span class="plus">➕</span><span class="span-tens added-units">${tensAndUnit(number).hundreds===0?'':tensAndUnit(number).hundreds}${tensAndUnit(number).tens}</span><span class="equals">🟰<span class="span-tens">${tensAndUnit(nextNumber + tensAndUnit(number).tens).hundreds === 0 ? '' : tensAndUnit(nextNumber + tensAndUnit(number).tens).hundreds}</span><span class="span-tens">${tensAndUnit(nextNumber + tensAndUnit(number).tens).tens === 0 ? '' : tensAndUnit(nextNumber + tensAndUnit(number).tens).tens}</span><span class="final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).units}</span>`
 
                 } else {
-                    
-                    nextPlusTens.innerHTML = `<span class="plus">➕</span><span class="span-tens added-units">${tensAndUnit(number).tens}</span><span class="equals">🟰<span class="span-final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).tens === 0 ? '' : tensAndUnit(nextNumber + tensAndUnit(number).tens).tens}</span><span class="span-final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).units}</span>`
+console.log(tensAndUnit(number).hundreds)
+console.log(tensAndUnit(nextNumber + tensAndUnit(number).tens).units)  
+console.log(tensAndUnit(number).tens)
+console.log(nextNumber)
+console.log(tensAndUnit(number).hundreds + tensAndUnit(number).tens)
+console.log(nextNumber+tensAndUnit(number).tens)
+console.log(tensAndUnit(tensAndUnit(number).tens).units+tensAndUnit(number).hundreds)
+                    nextPlusTens.innerHTML = `<span class="plus">➕</span><span class="span-tens added-units">${tensAndUnit(number).hundreds===0?'':tensAndUnit(number).hundreds}${tensAndUnit(number).tens}</span><span class="equals">🟰<span class="final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).tens === 0 ? '' : tensAndUnit(nextNumber + tensAndUnit(number).tens).tens+tensAndUnit(number).hundreds}</span><span class="final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).units}</span>`
 
 
                 }
                 nextNumberSpanEl.appendChild(nextPlusTens)
 
-                console.log(nextNumber)
+              
 
             } else {
-              
-                    let nextMultiplicationElement = numbersSpanEls[i + 1].querySelector('.span-units');
-                    console.log(nextMultiplicationElement)
+
+                let nextMultiplicationElement = numbersSpanEls[i + 1].querySelector('.span-units');
+                console.log(nextMultiplicationElement)
                 nextMultiplicationElement.classList.add('span-final-multiplication')
-                
+
             }
         }
 
