@@ -18,7 +18,7 @@ Pupi scaricare l'ultima versione di Visual Studio Code al seguente [link](https:
 
 ### Istruzioni
 
-1. **Clona il repository**: Clona il repository progetto sul tuo computer utilizzando Git. Puoi farlo aprendo Visual Studio Code, selezionando il menu "File" e poi "Clone Repository". Incolla l'URL del repository e segui le istruzioni per clonarlo sul tuo computer.
+1. **Clona il repository**: Clona il repository progetto sul tuo computer utilizzando Git. Puoi farlo aprendo Visual Studio Code, selezionando il menu "File" e poi "Clone Repository". Incolla l'URL del repository (https://github.com/SanteCalderisi112358/JapaneseVisualMultiplication.git) e segui le istruzioni per clonarlo sul tuo computer.
 
 2. **Apri il progetto in Visual Studio Code**: Una volta clonato il repository, aprilo in Visual Studio Code selezionando la cartella del progetto nella finestra di esplorazione dei file.
 
