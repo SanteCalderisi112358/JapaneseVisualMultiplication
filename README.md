@@ -35,4 +35,4 @@ L'applicazione è progettata con un layout responsive, che si adatta automaticam
 
 
 
-- **Connessione Internet Assente**: Se l'applicazione non riesce a connettersi al server a causa di una connessione Internet assente, verrà visualizzato un messaggio di errore che informa l'utente della situazione e fornisce suggerimenti su come risolvere il problema.
+
