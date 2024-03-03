@@ -27,26 +27,12 @@ Pupi scaricare l'ultima versione di Visual Studio Code al seguente [link](https:
 4. **Interagisci con l'applicazione**: Una volta che l'applicazione è stata avviata nel browser, sarà pronta per essere utilizzata. Puoi interagire con essa come desideri.
 
 
-## Compatibilità
 
-Questo programma è stato testato e dovrebbe essere eseguibile su Windows e Linux.
-
-## Requisiti Opzionali
 
 ### Responsive Design
 
 L'applicazione è progettata con un layout responsive, che si adatta automaticamente a diverse dimensioni di schermo, garantendo una buona esperienza utente su dispositivi desktop, tablet e mobile.
 
-## Documentazione Aggiuntiva
 
-### Casi Limite
-
-- **Input Vuoto**: Se l'utente lascia vuoti entrambi i campi di input, verrà visualizzato un messaggio di errore che indica la mancanza di dati.
-
-- **Input Non Numerico**: Se l'utente inserisce valori non numerici nei campi di input, verrà visualizzato un messaggio di errore che indica che solo valori numerici sono ammessi.
-
-### Scenari Critici
-
-- **Errore del Server**: Se il server riscontra un errore durante il calcolo o il recupero dei dati, l'utente verrà informato con un messaggio di errore appropriato e verrà fornita assistenza su come risolvere il problema.
 
 - **Connessione Internet Assente**: Se l'applicazione non riesce a connettersi al server a causa di una connessione Internet assente, verrà visualizzato un messaggio di errore che informa l'utente della situazione e fornisce suggerimenti su come risolvere il problema.
