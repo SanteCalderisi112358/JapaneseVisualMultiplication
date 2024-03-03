@@ -4,6 +4,8 @@ Japanese Visual Multiplication è una applicazione web che, dati due numeri natu
 
 Se il numero a destra è maggiore di 9, fa un riporto e aggiung3 il numero nella posizione delle decine al numero al centro (vedi figura 2). Se il numero al centro è maggiore di 9, fa la stessa cosa ma lo aggiunge 
 al numero dell'angolo sinistro.
+
+
 ![Japanese Visual Multiplication](https://www.archimedes-lab.org/im_maths/Maths2-Japanese_multiplicat.jpg)
 
 ## Compilazione ed Esecuzione
