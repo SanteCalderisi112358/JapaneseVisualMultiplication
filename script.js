@@ -40,7 +40,7 @@ function enableBtnEl() {
             if(language === 'it') {
                 printError('Inserisci un numero NATURALE nel PRIMO campo', true);
             } else if (language === 'en') {
-                printError('Enter a NATURAL number in the FIRST field', true);
+                printError('Enter a INTEGER number in the FIRST field', true);
             }
         }
     
@@ -48,7 +48,7 @@ function enableBtnEl() {
             if(language === 'it') {
                 printError('Inserisci un numero NATURALE nel SECONDO campo', true);
             } else if (language === 'en') {
-                printError('Enter a NATURAL number in the SECOND field', true);
+                printError('Enter a INTEGER number in the SECOND field', true);
             }
         }
     
@@ -56,7 +56,7 @@ function enableBtnEl() {
             if(language === 'it') {
                 printError('Inserisci un numero naturale compreso tra 0 e 100 nel PRIMO campo', true);
             } else if (language === 'en') {
-                printError('Enter a natural number between 0 and 100 in the FIRST field', true);
+                printError('Enter a integer number between 0 and 100 in the FIRST field', true);
             }
         }
     
@@ -64,7 +64,7 @@ function enableBtnEl() {
             if(language === 'it') {
                 printError('Inserisci un numero naturale compreso tra 0 e 100 nel SECONDO campo', true);
             } else if (language === 'en') {
-                printError('Enter a natural number between 0 and 100 in the SECOND field', true);
+                printError('Enter a integer number between 0 and 100 in the SECOND field', true);
             }
         }
     } else {
