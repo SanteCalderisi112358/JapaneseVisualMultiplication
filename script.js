@@ -10,6 +10,9 @@ const spinnerEl = document.querySelector('.spinner-container');
 const japaneseContainerEl = document.querySelector('.japanese-container');
 const japaneseMultiplicationEl = document.querySelector('.japanese-multiplication');
 const japaneseBoxEl = document.querySelector('.japanese-box')
+const italianLangEl = document.querySelector('.description-it')
+const englishLangEl = document.querySelector('.description-en')
+let language = 'en';
 let numberInputFirst;
 let numberInputSecond;
 
@@ -34,26 +37,41 @@ function enableBtnEl() {
     
         // Input checks to ensure they are whole numbers between 0 and 100
         if (!Number.isInteger(numberInputFirst)) {
-            printError('Enter a NATURAL number in the FIRST field', true);
+            if(language === 'it') {
+                printError('Inserisci un numero NATURALE nel PRIMO campo', true);
+            } else if (language === 'en') {
+                printError('Enter a NATURAL number in the FIRST field', true);
+            }
         }
     
         if (!Number.isInteger(numberInputSecond)) {
-            printError('Enter a NATURAL number in the SECOND field', true);
+            if(language === 'it') {
+                printError('Inserisci un numero NATURALE nel SECONDO campo', true);
+            } else if (language === 'en') {
+                printError('Enter a NATURAL number in the SECOND field', true);
+            }
         }
     
         if (!(numberInputFirst >= 0 && numberInputFirst <= 100)) {
-            printError('Enter a natural number between 0 and 100 in the FIRST field', true);
+            if(language === 'it') {
+                printError('Inserisci un numero naturale compreso tra 0 e 100 nel PRIMO campo', true);
+            } else if (language === 'en') {
+                printError('Enter a natural number between 0 and 100 in the FIRST field', true);
+            }
         }
     
         if (!(numberInputSecond >= 0 && numberInputSecond <= 100)) {
-            printError('Enter a natural number between 0 and 100 in the SECOND field', true);
+            if(language === 'it') {
+                printError('Inserisci un numero naturale compreso tra 0 e 100 nel SECONDO campo', true);
+            } else if (language === 'en') {
+                printError('Enter a natural number between 0 and 100 in the SECOND field', true);
+            }
         }
     } else {
         // If either field is empty, disable the button
         printError('', false)
     }
-    
-}
+}    
 
 // Aggiungi event listeners per controllare l'input
 inputElFirst.addEventListener('input', enableBtnEl);
@@ -421,4 +439,19 @@ printNumber = () => {
             }
         }
     });
+}
+
+
+function setLanguage(country){
+    language = country;
+    if(country === 'it'){
+        englishLangEl.style.display = 'none'
+        italianLangEl.style.display = 'block'
+        btnEl.innerText = 'Vai!'
+    }else if(country === 'en'){
+        italianLangEl.style.display = 'none'
+        englishLangEl.style.display = 'block'
+        btnEl.innerText = 'Go!'
+
+    }
 }

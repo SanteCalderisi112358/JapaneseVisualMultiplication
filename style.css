@@ -30,14 +30,41 @@ nav h1{
     text-align: center;
 }
 
-.description{
+.language-selector{
+    width: 100%;
+    text-align: end;
+    padding-right: 30px;
+}
+
+.language-selector a{
+    width: 30px;
+    aspect-ratio: 1;
+    border: 1px solid black;
+    border-radius: 50%;
+    margin-top: 20px;
+    margin-left: 5px;
+    box-shadow: 4px 4px 6px rgba(0,0,0,0.5);
+    background-size: cover;
+    background-position: center;
+}
+.description-it,
+.description-en{
     padding: 40px 20px;
     font-size: 12px;
+}
+
+.description-it{
+    display: none;
 }
 
 li{
     padding-left: 10px;
 }
+
+.enter-number-container{
+text-align: center;}
+
+
 main{
     display: flex;
     flex-direction: column;
@@ -303,7 +330,14 @@ footer{
 }
 
 @media(max-width:576px){
+.description-en,
+.description-it{
+    font-size: 10px;
+}
 
+ol{
+    padding-left: 10px;
+}
     h1{
         font-size: 20px;
     }
@@ -341,5 +375,10 @@ footer{
     .final-multiplication,
     .span-units{
         font-size: 25px;
+    }
+
+    footer{
+        padding: 10px 15px;
+        font-size: 13px;
     }
 }
