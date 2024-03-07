@@ -11,19 +11,49 @@
 </head>
 
 <body>
+    <nav>
+        <h1><em>Japanese Visual Multiplication</em></h1>
+    </nav>
+    <div class="description">
+        <p>Here is an interesting method to visualize multiplication that reduces it to simple counting! </p>
+<hr>
+<p>This application...</p>
+        <p>
+<ol><li>            ...draws sets of parallel lines representing each digit of the first number to be multiplied (the multiplicand). <br>
+</li>
+<li>            ...draws sets of parallels, perpendicular to the first sets of parallels, corresponding to each digit of the second number (the multiplier). <br>
+</li>
+<li>            ...puts dots where each line crosses another line. <br>
+</li>
+<li>            ...on the left corner, puts a curved line through the wide spot with no points. It does the same with the right. <br>
+</li>
+<li>            ...counts the points in the right corner. <br>
+</li>
+<li>            ...counts the points in the middle. <br>
+</li>
+<li>            ...counts the ones in the left corner. <br>
+</li>
+<li>If the number on the right is greater than 9, carries and adds the number in the tens place to the number in the middle. If the number in the middle is greater than 9, it does the same thing except add it to the number from the left corner. <br>
+    Write all those numbers down in that order and you will have your answer.</p></li></ol>
+            
+
+            <hr>
+
+            <p style="text-align: center;">Enter two <b>NATURAL NUMBERS</b> between 0 and 100.</p>
+    </div>
     <main>
 
         <div class="input-fields-container">
 
             <input type="number" step="1" class="input input-1">
             <input type="number" step="1" class="input input-2">
-            <button type="button" class="btn" disabled>Calcola!</button>
+            <button type="button" class="btn" disabled>Go!</button>
             <div class="error-container">
 
             </div>
         </div>
 
-        <div class="justify-content-center spinner-container d-none mb-5">
+        <div class="justify-content-center spinner-container">
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
@@ -42,6 +72,9 @@
         </div>
 
     </main>
+    <footer>
+        <p>Created with ❣️ and 🧠 by <em style="font-weight: 500;">Sante Calderisi</em></p>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

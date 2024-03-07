@@ -13,61 +13,53 @@ const japaneseBoxEl = document.querySelector('.japanese-box')
 let numberInputFirst;
 let numberInputSecond;
 
-
-
+// Variabili di stato per la valutazione dei numeri inseriti
 let areBothUnitsAndTens;
 let areBothHundreds;
 let areHundredsOnlyFirst;
 let areHundredsOnlySecond;
 
 let intersection = [];
-// Questa funzione decide se abilitare il pulsante Button o no in base al controllo fatto sui valori degli input immessi
+
+// Funzione per abilitare/disabilitare il pulsante in base all'input
 function enableBtnEl() {
+    // Ottieni i valori degli input come numeri
     numberInputFirst = Number(inputElFirst.value);
     numberInputSecond = Number(inputElSecond.value);
-    console.log(numberInputFirst, numberInputSecond);
 
+    // Controllo sugli input per abilitare/disabilitare il pulsante
     if (inputElFirst.value.trim() !== '' && inputElSecond.value.trim() !== '') {
         errorContainerEl.innerHTML = '';
         btnEl.disabled = false;
+    
+        // Input checks to ensure they are whole numbers between 0 and 100
         if (!Number.isInteger(numberInputFirst)) {
-            printError('Inserire nel PRIMO campo un numero INTERO', true);
+            printError('Enter a NATURAL number in the FIRST field', true);
         }
-
-
-
+    
         if (!Number.isInteger(numberInputSecond)) {
-            printError('Inserire nel SECONDO campo un numero INTERO', true);
-
+            printError('Enter a NATURAL number in the SECOND field', true);
         }
-
-
+    
         if (!(numberInputFirst >= 0 && numberInputFirst <= 100)) {
-            printError('Inserire nel PRIMO campo un numero compreso tra 0 e 100', true);
-
+            printError('Enter a natural number between 0 and 100 in the FIRST field', true);
         }
-
-
+    
         if (!(numberInputSecond >= 0 && numberInputSecond <= 100)) {
-            printError('Inserire nel SECONDO campo un numero compreso tra 0 e 100', true);
-
+            printError('Enter a natural number between 0 and 100 in the SECOND field', true);
         }
-
     } else {
+        // If either field is empty, disable the button
         printError('', false)
     }
-
-
+    
 }
 
-
+// Aggiungi event listeners per controllare l'input
 inputElFirst.addEventListener('input', enableBtnEl);
 inputElSecond.addEventListener('input', enableBtnEl);
 
-
-
-
-// Questa funziona accetta una stringa in base al tipo di errore degli input, stampa l'errore e disabilita il button
+// Funzione per stampare un messaggio di errore e disabilitare il pulsante
 printError = (messageError, flag) => {
     errorContainerEl.innerHTML = '';
     btnEl.disabled = true;
@@ -80,9 +72,10 @@ printError = (messageError, flag) => {
     }
 }
 
+// Listener per il click sul pulsante
 btnEl.addEventListener('click', () => {
-    intersection = []
-
+    // Reset delle variabili e degli elementi del DOM
+    intersection = [];
     const curves = document.querySelectorAll('.curved');
     curves.forEach(curve => curve.style.display = 'none')
     japaneseBoxEl.style.transform = 'rotate(0deg)'
@@ -90,16 +83,15 @@ btnEl.addEventListener('click', () => {
     japaneseMultiplicationEl.innerText = '';
     inputElFirst.value = '';
     inputElSecond.value = '';
-    document.querySelector('main').style.marginTop = '500px'
+    // document.querySelector('main').style.marginTop = '500px'
     spinnerShow()
-})
+});
 
-
+// Funzione per mostrare lo spinner e avviare la generazione visuale della moltiplicazione giapponese
 function spinnerShow() {
-    spinnerEl.classList.remove('d-none')
-    spinnerEl.classList.add('d-flex')
+    spinnerEl.style.opacity = '1'
     setTimeout(() => {
-        spinnerEl.classList.add('d-none')
+        spinnerEl.style.opacity = '0'
         printJapaneseVisualMultiplication()
         printMoltiplication(numberInputFirst, numberInputSecond)
         calculateCrossPoint()
@@ -111,49 +103,42 @@ function spinnerShow() {
         }
         btnEl.disabled = true;
     }, 1000)
-
 }
 
+// Funzione per dividere un numero nelle sue unità, decine e centinaia
 function tensAndUnit(numberInput) {
     let hundreds = Math.floor(numberInput / 100);
-    let tens = Math.floor((numberInput % 100) / 10); // Calcoliamo le decine correttamente
+    let tens = Math.floor((numberInput % 100) / 10);
     let units = numberInput % 10;
 
     return { hundreds, tens, units };
 }
 
-
-
+// Funzione per verificare i tipi di numeri inseriti (centinaia, decine, unità)
 let checkBothUnitsAndTens = () => {
-    let areHundredsFirstInput = numberInputFirst.hundreds === 0 ? false : true
-    let areHundredsSecondInput = numberInputSecond.hundreds === 0 ? false : true
-    let areTensFirstInput = numberInputFirst.tens === 0 ? false : true
-    let areTensSecondInput = numberInputSecond.tens === 0 ? false : true
+    let areHundredsFirstInput = numberInputFirst.hundreds === 0 ? false : true;
+    let areHundredsSecondInput = numberInputSecond.hundreds === 0 ? false : true;
+    let areTensFirstInput = numberInputFirst.tens === 0 ? false : true;
+    let areTensSecondInput = numberInputSecond.tens === 0 ? false : true;
     let areUnitsFirstInput = numberInputFirst.units === 0 ? false : true;
     let areUnitsSecondInput = numberInputSecond.units === 0 ? false : true;
     let areTensBothInput = areTensFirstInput && areTensSecondInput;
     let areUnitsBothInput = areUnitsFirstInput && areUnitsSecondInput;
-    areHundredsOnlyFirst = (numberInputFirst.hundreds !== 0 && numberInputSecond.hundreds == 0) ? true : false
-    areHundredsOnlySecond = (numberInputSecond.hundreds !== 0 && numberInputFirst.hundreds == 0) ? true : false
+    areHundredsOnlyFirst = (numberInputFirst.hundreds !== 0 && numberInputSecond.hundreds == 0) ? true : false;
+    areHundredsOnlySecond = (numberInputSecond.hundreds !== 0 && numberInputFirst.hundreds == 0) ? true : false;
     areBothUnitsAndTens = areTensBothInput && areUnitsBothInput;
-    areBothHundreds = areHundredsFirstInput && areHundredsSecondInput
-
-    /**Condizioni centinaia */
-    console.log(areBothUnitsAndTens)
-    console.log(areBothHundreds)
-    console.log(areHundredsOnlyFirst)
-    console.log(areHundredsOnlySecond)
-    console.log(numberInputFirst, numberInputSecond)
+    areBothHundreds = areHundredsFirstInput && areHundredsSecondInput;
 }
 
-
-
+// Funzione per stampare la moltiplicazione visiva giapponese in base ai diversi casi degli input.
 function printJapaneseVisualMultiplication() {
     japaneseContainerEl.style.display = 'flex';
+    // Trasforma i numeri di input in formato "decine e unità"
     numberInputFirst = tensAndUnit(numberInputFirst);
     numberInputSecond = tensAndUnit(numberInputSecond);
+    // Controlla i valori degli input per determinare una casistica: se sono presenti in entrambi le centinaia, oppure il primo ha sia decine che unità mentre il secondo no, ecc...
     checkBothUnitsAndTens()
-    /** CASO IN CUI NON CI SONO CENTINAIA */
+    //...in base ai casi chiama la funzione 'printParalleLine'
    if (areBothHundreds) {
         printParallelLine(numberInputFirst.hundreds, 'left', 'line-hundreds-first-multiplicand');
         printParallelLine(numberInputSecond.hundreds, 'top', 'line-hundreds-second-multiplicand');
@@ -175,27 +160,35 @@ function printJapaneseVisualMultiplication() {
         printParallelLine(numberInputSecond.tens, 'top', 'line-tens-second-multiplicand');
         printParallelLine(numberInputSecond.units, 'bottom', 'line-units-second-multiplicand');
        
-        /**CASO IN CUI ENTRAMBI GLI INPUT SONO 100 */
     } 
 }
 
 
+// Funzione per stampare la moltiplicazione...
 function printMoltiplication(firstInput, secondInput) {
+    //...crea un nuovo elemento paragrafo per la moltiplicazione
     let multiplicationParagraph = document.createElement('p');
-    multiplicationParagraph.classList.add('final-multiplication')
+    multiplicationParagraph.classList.add('final-multiplication');
+
+    // ...costruisce la stringa HTML per la moltiplicazione
     multiplicationParagraph.innerHTML = `
-    <span class="hundreds-first-multiplicand">${firstInput.hundreds === 0 ? '' : firstInput.hundreds}</span>
-        <span class="tens-first-multiplicand">${firstInput.tens}</span>
+        <span class="hundreds-first-multiplicand">${firstInput.hundreds === 0 ? '' : firstInput.hundreds}</span>
+        <span class="tens-first-multiplicand">${firstInput.tens === 0 && firstInput.hundreds === 0 ? '' : firstInput.tens}</span>
         <span class="units-first-multiplicand">${firstInput.units}</span>
         <span>✖️</span>
         <span class="hundreds-second-multiplicand">${secondInput.hundreds === 0 ? '' : secondInput.hundreds}</span>
-        <span class="tens-second-multiplicand">${secondInput.tens}</span>
+        <span class="tens-second-multiplicand">${secondInput.tens === 0 && secondInput.hundreds === 0 ? '' : secondInput.tens}</span>
         <span class="units-second-multiplicand">${secondInput.units}</span>
         <span>🟰</span> ${(firstInput.hundreds * 100 + firstInput.tens * 10 + firstInput.units) * (secondInput.hundreds * 100 + secondInput.tens * 10 + secondInput.units)}
     `;
+    // ...aggiunge il paragrafo al contenitore della moltiplicazione giapponese
     japaneseMultiplicationEl.appendChild(multiplicationParagraph);
 }
 
+// Funzione per stampare le linee per ogni valore di centinaia, decine e unità per ogni input.
+// number = quante linee deve stamapre
+// direction = dove stamaprle
+// lineClass = quale classe dare alla nuova linea che verrà stampata. Ogni linea (che sia centinaia, decina o unità) appartiene ad una classe con uno specifico stile in base a centinaia, decina o unità
 printParallelLine = (number, direction, lineClass) => {
 
     for (i = 0; i < number; i++) {
@@ -208,30 +201,51 @@ printParallelLine = (number, direction, lineClass) => {
 }
 
 
-calculateCrossPoint = () => {
-console.log("ciao")
+//NB QUESTA FUNZIONE PUò ESSERE OTTIMIZZATA CONSIDERANDO CHE AL MOMENTO VIENE UTILIZZATA A PRESCINDERE DALLA SUA REALE UTILITA'. Infatti, che ci siano o me centinaia, o decine, o unità in un input, viene
+// ugualmente chiamata e vengono calcolate intersezione tra linee che potrebbero non esserci. 
+// DA RIVEDERE.
 
+// Funzione per calcolare e visualizzare i punti di intersezione delle linee per centinaia, decine e unità
+calculateCrossPoint = (line1,lines2) => {
+    // ..ottiene le coordinate e le dimensioni dell'elemento japaneseBoxEl che contiene le linee parallele stampate grazie alla funzione printParallelLine
     const japaneseBoxElCoords = japaneseBoxEl.getBoundingClientRect();
     const japaneseBoxElWidth = japaneseBoxElCoords.width;
     const japaneseBoxElHeight = japaneseBoxElCoords.height;
 
+    // Funzione interna per calcolare le intersezioni tra due array di linee
     const calculateIntersection = (lines1, lines2) => {
+        // Questi sono due array che contengono le linee per unità e decine per entrambi i moltiplicandi.
+        // Per ogni combinazine possibile tra centinaia, decine e unità dei due input (es 24 e 13, calcolerà:
+        // 1- le intersezione tra le 2 linee (decine)del primo input con la linea (decina) del secondo;
+        // 2- le intersezioni tra le 2 linee (decine)del primo input con le 3 linee (unità) del secondo;
+        // 3- le intersezioni tra le 4 linee (unità)del primo input con con la linea (decina) del secondo;
+        // 4- le intersezioni tra le 4 linee (unità)del primo input con con le 3 linee (unità) del secondo;)
+
+        //..verifica che entrambi lines1 e lines2 non siano vuoti. 
         if (!(lines1.length === 0 || lines2.length === 0)) {
-            let intersectionGrpuo = [];
+            // Dichiara un array per memorizzare le intersezioni trovate
+            let intersectionGroup = [];
+            // Iterazione attraverso le linee del primo array
             for (let i = 0; i < lines1.length; i++) {
+                // Ottenimento delle coordinate del rettangolo del segmento di linea
                 const coordLine1 = lines1[i].getBoundingClientRect();
+                // Iterazione attraverso le linee del secondo array
                 for (let j = 0; j < lines2.length; j++) {
+                    // Ottenimento delle coordinate del rettangolo del segmento di linea
                     const coordLine2 = lines2[j].getBoundingClientRect();
+                    // Calcolo dei punti di intersezione
                     const left = Math.max(coordLine1.left, coordLine2.left);
                     const right = Math.min(coordLine1.right, coordLine2.right);
                     const top = Math.max(coordLine1.top, coordLine2.top);
                     const bottom = Math.min(coordLine1.bottom, coordLine2.bottom);
+                    // Verifica se ci sia un'intersezione tra i rettangoli
                     if (left < right && top < bottom) {
+                        // Calcolo delle coordinate relative delle intersezioni rispetto all'elemento japaneseBoxEl
                         const x = ((left - japaneseBoxElCoords.left) / japaneseBoxElWidth) * 100;
                         const y = ((top - japaneseBoxElCoords.top) / japaneseBoxElHeight) * 100;
-
-                        intersectionGrpuo.push({ x, y });
-
+                        // Aggiunta delle coordinate di intersezione all'array
+                        intersectionGroup.push({ x, y });
+                        // Creazione e posizionamento di un cerchio per rappresentare l'intersezione
                         const circle = document.createElement('div');
                         circle.classList.add('intersection-circle');
                         circle.style.left = `${x - 1}%`;
@@ -239,13 +253,14 @@ console.log("ciao")
                         japaneseBoxEl.appendChild(circle);
                     }
                 }
-
             }
-            intersection.push(intersectionGrpuo)
+            // Aggiunta dell'array delle intersezioni al gruppo di intersezioni complessivo
+            intersection.push(intersectionGroup);
         }
+    }
+    ;
 
-    };
-
+    // Calcolo delle intersezioni per tutte le combinazioni di linee tra i moltiplicatori
     calculateIntersection(document.querySelectorAll('.line-tens-first-multiplicand'), document.querySelectorAll('.line-tens-second-multiplicand'));
     calculateIntersection(document.querySelectorAll('.line-tens-first-multiplicand'), document.querySelectorAll('.line-units-second-multiplicand'));
     calculateIntersection(document.querySelectorAll('.line-units-first-multiplicand'), document.querySelectorAll('.line-tens-second-multiplicand'));
@@ -255,54 +270,64 @@ console.log("ciao")
     calculateIntersection(document.querySelectorAll('.line-hundreds-first-multiplicand'), document.querySelectorAll('.line-units-second-multiplicand'));
     calculateIntersection(document.querySelectorAll('.line-hundreds-second-multiplicand'), document.querySelectorAll('.line-tens-first-multiplicand'));
     calculateIntersection(document.querySelectorAll('.line-hundreds-second-multiplicand'), document.querySelectorAll('.line-units-first-multiplicand'));
-    // japaneseBoxEl.style.transform = 'rotate(-45deg)'
-    console.log(intersection);
+
+    
 }
+
+
+// Funzione per analizzare l'array dei punti di intersezione e, in base agli input, stampare i rettangoli che racchiudono i gruppi di punti.
+// L'array che verrà passata è intersection che è del tipo [..., [],...]. Nel caso di input con entrambi unità e decine, la prima parte di tale array rappresenta le intersezioni tra
+// le decine dei due input, la parte finale rappresenta le intersezioni tra le unità, la parte centrale rappresenta le cross interazioni tra decine e unità dei due input.
+// Idealmente se questa parte centrale non è vuota allora certamente i due input contengono entrambi unità e decine.
 
 getPointsGroupFromArrayIntersection = (arrayIntersections) => {
+    // ... estrae il primo gruppo di punti dall'array di intersezioni.Idealmente corrisponde 
     const firstPointsGroup = arrayIntersections[0];
-    let middlePointsGroup = arrayIntersections.slice(1, -1).flat();
+    // ...estrae l'ultimo gruppo di punti dall'array di intersezioni
     const lastPointsGroup = arrayIntersections[arrayIntersections.length - 1];
 
-    console.log("Primo Gruppo di punti:");
-    console.log(firstPointsGroup);
-    console.log("Gruppo punti in mezzo:");
-    console.log(middlePointsGroup);
-    console.log("Ultimo Gruppo di punti:");
-    console.log(lastPointsGroup);
+    // ...estrae i punti intermedi
+    let middlePointsGroup = arrayIntersections.slice(1, -1).flat();
 
-
+    // Verifica se sia necessario stampare sia i moltiplicatori delle unità che delle decine. Se entrambi gli input hanno decine e unità allora certamente ci sarà un array centrale di punti
     if (areBothUnitsAndTens) {
-        printRectangle(firstPointsGroup, false)
-        printRectangle(middlePointsGroup, true)
-        printRectangle(lastPointsGroup, false)
-    }
-    else {
-
+        // Stampa il rettangolo per il primo gruppo di punti (non intermedio)
         printRectangle(firstPointsGroup, false);
+        // Stampa il rettangolo per il gruppo di punti intermedi
+        printRectangle(middlePointsGroup, true);
+        // Stampa il rettangolo per l'ultimo gruppo di punti (non intermedio)
+        printRectangle(lastPointsGroup, false);
+    } else {
+        // Stampa il rettangolo per il primo gruppo di punti (non intermedio)
+        printRectangle(firstPointsGroup, false);
+        // Stampa il rettangolo per l'ultimo gruppo di punti (non intermedio)
         printRectangle(lastPointsGroup, false);
     }
-
-
 }
 
-
-
+// Funzione per stampare i rettangoli che racchiudono i punti di intersezione.
+// Questa funzione accetta un array di punti (iniziale, centrale, finale) e un booleano (true se stiamo passando l'array centrale e quindi entrambi gli input hanno decine e unità....serve per definire, se T o F
+// un diverso stile per le due tipologie di array (laterale o centrale))
 printRectangle = (pointsGroup, areMiddleGroup) => {
+   
 
-    console.log("PRINT RETT-tens*10")
+    // Verifica se il gruppo di punti è indefinito e termina la funzione in caso affermativo
     if (pointsGroup === undefined) {
         return;
     }
 
-    console.log(tensAndUnit(pointsGroup.length).tens)
-    let margin = 10; // Valore del margine in percentuale
+    // Dichiarazione delle variabili per calcolare i margini e le dimensioni del rettangolo
+
+    //Un margine tra il rettangolo e i punti. Non voglio che il bordo del rettangolo copra i punti più esterni
+    let margin = 10;
+
+    //Non sapendo a priori quale siano i massimi e i minimi dei punti per ogni array di intresione, pongo che siano +o- infinito
     let minX = Infinity;
     let minY = Infinity;
     let maxX = -Infinity;
     let maxY = -Infinity;
 
-    // Trova i valori minimi e massimi di x e y tra tutti i punti
+    // Calcola massimo e minimo per ogni punto tra le sue coordinate e + o - infinito
     pointsGroup.forEach(point => {
         minX = Math.min(minX, point.x);
         minY = Math.min(minY, point.y);
@@ -310,95 +335,90 @@ printRectangle = (pointsGroup, areMiddleGroup) => {
         maxY = Math.max(maxY, point.y);
     });
 
-    // Aggiungi il margine ai limiti del rettangolo
+    // ...aggiunge i margini al rettangolo
     minX -= margin;
     minY -= margin;
     maxX += margin;
     maxY += margin;
 
-    // Assicura che i valori non siano inferiori a 0
+    // ...assicura che le coordinate del rettangolo siano non negative
     minX = Math.max(0, minX);
     minY = Math.max(0, minY);
 
-    const rectWidth = maxX - minX; // Calcola la larghezza del rettangolo
-    const rectHeight = maxY - minY; // Calcola l'altezza del rettangolo
-    const rectX = minX; // Posizione x del rettangolo
-    const rectY = minY; // Posizione y del rettangolo
+    // ...calcola le dimensioni e le posizioni del rettangolo
+    const rectWidth = maxX - minX;
+    const rectHeight = maxY - minY;
+    const rectX = minX;
+    const rectY = minY;
 
+    // Creazione del rettangolo come elemento div
     const rect = document.createElement('div');
+    // Creazione dell'elemento per il numero all'interno del rettangolo
     const number = document.createElement('div');
-    number.classList.add('container-number')
-    areMiddleGroup ? number.classList.add('span-number-middle') : number.classList.add('span-number-no-middle')
-    number.innerHTML = `<div class="tens-units-number"><span class="span-tens">${tensAndUnit(pointsGroup.length).hundreds === 0 ? '' : tensAndUnit(pointsGroup.length).hundreds}</span><span class="span-tens">${tensAndUnit(pointsGroup.length).tens === 0 ? '' : tensAndUnit(pointsGroup.length).tens}</span><span class="span-units">${tensAndUnit(pointsGroup.length).units}</span></div>`
-    rect.appendChild(number)
+    // Aggiunta delle classi all'elemento numero
+    number.classList.add('container-number');
+    areMiddleGroup ? number.classList.add('span-number-middle') : number.classList.add('span-number-no-middle');
+    // Inserimento del numero all'interno dell'elemento numero. Tale numero è la lunghezza dell array delle intersezioni, e quindi il numero totale dei punti di intersezione tra le linee per ogni "gruppo"
+    //(decine del primo con decine del secondo, ecc...)
+    number.innerHTML = `<div class="tens-units-number"><span class="span-tens">${tensAndUnit(pointsGroup.length).hundreds === 0 ? '' : tensAndUnit(pointsGroup.length).hundreds}</span><span class="span-tens">${tensAndUnit(pointsGroup.length).tens === 0 ? '' : tensAndUnit(pointsGroup.length).tens}</span><span class="span-units">${tensAndUnit(pointsGroup.length).units}</span></div>`;
+    // Aggiunta dell'elemento numero al rettangolo
+    rect.appendChild(number);
+    // Aggiunta delle classi e delle dimensioni al rettangolo
     rect.classList.add('rect-points');
-    rect.style.left = areMiddleGroup ? `${rectX + 15}%` : `${rectX}%`; // Imposta la posizione x del rettangolo
-    rect.style.top = areMiddleGroup ? `${rectY - 15}%` : `${rectY}%`; // Imposta la posizione y del rettangolo
-    rect.style.width = areMiddleGroup ? `${rectWidth - 30}%` : `${rectWidth}%`; // Imposta la larghezza del rettangolo
-    rect.style.height = areMiddleGroup ? `${rectHeight + 30}%` : `${rectHeight}%`; // Imposta l'altezza del rettangolo
+    //Se ci sono o meno unità e decine per entrambi, e quindi è presente il gruppo centrale, allora il rettangolo sarà leggermente diverso rispetto al rettangolo dei gruppi di punti "lateralei"
+    rect.style.left = areMiddleGroup ? `${rectX + 15}%` : `${rectX}%`;
+    rect.style.top = areMiddleGroup ? `${rectY - 15}%` : `${rectY}%`;
+    rect.style.width = areMiddleGroup ? `${rectWidth - 30}%` : `${rectWidth}%`;
+    rect.style.height = areMiddleGroup ? `${rectHeight + 30}%` : `${rectHeight}%`;
 
+    // Aggiunta del rettangolo all'elemento japaneseBoxEl
     japaneseBoxEl.appendChild(rect);
+
+    // Se il rettangolo è un rettangolo intermedio, mostra le curve
     if (areMiddleGroup) {
         const curves = document.querySelectorAll('.curved');
-        curves.forEach(curve => curve.style.display = 'block')
+        curves.forEach(curve => curve.style.display = 'block');
     }
 }
+
+//Funzione per stampare i numeri all'interno dei rettangoli che racchiudono i punti di intersezione
 printNumber = () => {
+    // Ottenimento degli elementi span contenenti i numeri
     let numbersSpanEls = Array.from(document.querySelectorAll('.container-number'));
-    numbersSpanEls = numbersSpanEls.reverse()
+    // Inverti l'array degli elementi span in modo da analizzare da destra a sinistra
+    numbersSpanEls = numbersSpanEls.reverse();
 
-    let numbersArray = Array.from(numbersSpanEls).map(span => parseInt(span.innerText))
+    // Creazione di un array contenente i numeri estratti dagli elementi span
+    let numbersArray = Array.from(numbersSpanEls).map(span => parseInt(span.innerText));
 
-    console.log(numbersArray.length)
+    // Seleziona l'elemento span contenente le unità del primo moltiplicatore e aggiunge una classe per indicare la moltiplicazione finale. A prescindere dai casi l'unità del secondo input concorrà alla formazione
+    // del prodotto finale secondo la visual giapponese
     let firstMultiplicationElement = numbersSpanEls[0].querySelector('.span-units');
-    firstMultiplicationElement.classList.add('final-multiplication')
+    firstMultiplicationElement.classList.add('final-multiplication');
+
+    // Iterazione attraverso l'array di numeri per aggiungere i segni più e calcolare i risultati intermedi
     numbersArray.forEach((number, i) => {
         if (i <= numbersArray.length - 2) {
             let nextNumber = numbersArray[i + 1];
-            number = numbersArray[i - 1] ? number + tensAndUnit(numbersArray[i - 1]).tens : number
-            let nextNumberSpanEl = numbersSpanEls[i + 1]
+            number = numbersArray[i - 1] ? number + tensAndUnit(numbersArray[i - 1]).tens : number;
+            let nextNumberSpanEl = numbersSpanEls[i + 1];
             if (number > 9) {
-                console.log(nextNumberSpanEl)
-                let nextPlusTens = document.createElement('div')
-                nextPlusTens.classList.add('plus-container')
+                // Creazione di un elemento div per il segno più e il numero aggiunto
+                let nextPlusTens = document.createElement('div');
+                nextPlusTens.classList.add('plus-container');
+                // Costruzione del contenuto dell'elemento plus
                 if (i !== 1 && nextNumberSpanEl) {
-                    nextPlusTens.innerHTML = `<span class="plus">➕</span><span class="span-tens added-units">${tensAndUnit(number).hundreds===0?'':tensAndUnit(number).hundreds}${tensAndUnit(number).tens}</span><span class="equals">🟰<span class="span-tens">${tensAndUnit(nextNumber + tensAndUnit(number).tens).hundreds === 0 ? '' : tensAndUnit(nextNumber + tensAndUnit(number).tens).hundreds}</span><span class="span-tens">${tensAndUnit(nextNumber + tensAndUnit(number).tens).tens === 0 ? '' : tensAndUnit(nextNumber + tensAndUnit(number).tens).tens}</span><span class="final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).units}</span>`
-
+                    nextPlusTens.innerHTML = `<span class="plus">➕</span><span class="span-tens added-units">${tensAndUnit(number).hundreds === 0 ? '' : tensAndUnit(number).hundreds}${tensAndUnit(number).tens}</span><span class="equals">🟰<span class="span-tens">${tensAndUnit(nextNumber + tensAndUnit(number).tens).hundreds === 0 ? '' : tensAndUnit(nextNumber + tensAndUnit(number).tens).hundreds}</span><span class="span-tens">${tensAndUnit(nextNumber + tensAndUnit(number).tens).tens === 0 ? '' : tensAndUnit(nextNumber + tensAndUnit(number).tens).tens}</span><span class="final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).units}</span>`;
                 } else {
-console.log(tensAndUnit(number).hundreds)
-console.log(tensAndUnit(nextNumber + tensAndUnit(number).tens).units)  
-console.log(tensAndUnit(number).tens)
-console.log(nextNumber)
-console.log(tensAndUnit(number).hundreds + tensAndUnit(number).tens)
-console.log(nextNumber+tensAndUnit(number).tens)
-console.log(tensAndUnit(tensAndUnit(number).tens).units+tensAndUnit(number).hundreds)
-                    nextPlusTens.innerHTML = `<span class="plus">➕</span><span class="span-tens added-units">${tensAndUnit(number).hundreds===0?'':tensAndUnit(number).hundreds}${tensAndUnit(number).tens}</span><span class="equals">🟰<span class="final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).tens === 0 ? '' : tensAndUnit(nextNumber + tensAndUnit(number).tens).tens+tensAndUnit(number).hundreds}</span><span class="final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).units}</span>`
-
-
+                    nextPlusTens.innerHTML = `<span class="plus">➕</span><span class="span-tens added-units">${tensAndUnit(number).hundreds === 0 ? '' : tensAndUnit(number).hundreds}${tensAndUnit(number).tens}</span><span class="equals">🟰<span class="final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).tens === 0 ? '' : tensAndUnit(nextNumber + tensAndUnit(number).tens).tens+tensAndUnit(number).hundreds}</span><span class="final-multiplication">${tensAndUnit(nextNumber + tensAndUnit(number).tens).units}</span>`;
                 }
-                nextNumberSpanEl.appendChild(nextPlusTens)
-
-              
-
+                // Aggiunta dell'elemento plus al prossimo elemento span
+                nextNumberSpanEl.appendChild(nextPlusTens);
             } else {
-
+                // Se il numero non supera 9, aggiungi una classe per indicare la moltiplicazione finale all'elemento span delle unità successivo
                 let nextMultiplicationElement = numbersSpanEls[i + 1].querySelector('.span-units');
-                console.log(nextMultiplicationElement)
-                nextMultiplicationElement.classList.add('span-final-multiplication')
-
+                nextMultiplicationElement.classList.add('span-final-multiplication');
             }
         }
-
-
-
-
-    })
-
-
+    });
 }
-
-
-
-
-
-

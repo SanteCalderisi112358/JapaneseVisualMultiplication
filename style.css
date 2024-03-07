@@ -4,11 +4,39 @@
 body{
     margin: 0 auto;
     box-sizing: border-box;
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: "Poppins", sans-serif;
+}
+
+nav,footer{
+    width: 100vw;
+    height: 100px;
+    background-color: aquamarine;
+    box-shadow: 4px 4px 6px rgba(0,0,0,0.5);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+
+nav h1{
+    text-align: center;
+}
+
+.description{
+    padding: 40px 20px;
+    font-size: 12px;
+}
+
+li{
+    padding-left: 10px;
 }
 main{
     display: flex;
@@ -17,7 +45,6 @@ main{
     width: 100%;
     overflow: hidden;
     max-width: 800px;
-    /* margin-top: 200px; */
     padding-bottom: 200px;
 }
 
@@ -78,7 +105,8 @@ main{
 /* -- SPINNER -- */
 
 .spinner-container{
-    display: none;
+opacity: 0;
+padding-bottom: 40px;
 }
 
 /* --JAPANESE CONTAINER --*/
@@ -93,6 +121,7 @@ main{
     padding: 40px 20px;
     width: 700px;
     position: relative;
+    /* opacity: 0; */
 }
 
 .japanese-box{
@@ -102,11 +131,11 @@ aspect-ratio: 1;
     background-color: transparent;
     margin-bottom: 100px;
     position: relative;
-    margin: 70px;
+    margin: 100px;
 }
 
 .japanese-multiplication{
-    margin-top: 20px;
+    /* margin-top: 20px; */
     display:flex;
     justify-content: center;
     align-items: center;
@@ -227,7 +256,7 @@ border: 1px solid black;
 }
 
 .added-units{
-    color: rgba(255, 153, 0, 0.937);
+    color: rgb(255 25 25 / 94%);
 }
 
 .plus{
@@ -269,12 +298,20 @@ right: -50%;
 }
 
 
+footer{
+    box-shadow: 2px -5px 6px rgba(0,0,0,0.5);
+}
+
 @media(max-width:576px){
+
+    h1{
+        font-size: 20px;
+    }
     .input-fields-container{
         width: 200px;
         flex-direction: column;
         align-items: center;
-        margin-top: 250px;
+        /* margin-top: 250px; */
     }
 
 
@@ -296,7 +333,13 @@ right: -50%;
         height: 8px;
     }
 
-    .span-number{
+    .span-number,
+    .span-tens{
         font-size: 20px;
+    }
+
+    .final-multiplication,
+    .span-units{
+        font-size: 25px;
     }
 }
