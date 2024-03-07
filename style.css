@@ -51,6 +51,7 @@ nav h1{
 .description-en{
     padding: 40px 20px;
     font-size: 12px;
+    width: 100%;
 }
 
 .description-it{
