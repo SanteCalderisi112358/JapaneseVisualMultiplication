@@ -12,6 +12,7 @@ const japaneseMultiplicationEl = document.querySelector('.japanese-multiplicatio
 const japaneseBoxEl = document.querySelector('.japanese-box')
 const italianLangEl = document.querySelector('.description-it')
 const englishLangEl = document.querySelector('.description-en')
+const particlesEl = document.getElementById('tsParticles')
 let language = 'en';
 let numberInputFirst;
 let numberInputSecond;
@@ -46,7 +47,7 @@ tsParticles.load("tsParticles",{
         },
         random:true,
         speed:3,
-        straight:false,
+        straight:true,
         },
         number:{
             density:{
@@ -167,12 +168,14 @@ btnEl.addEventListener('click', () => {
     inputElFirst.value = '';
     inputElSecond.value = '';
     // document.querySelector('main').style.marginTop = '500px'
+    particlesEl.style.opacity = '0'
     spinnerShow()
 });
 
 // Funzione per mostrare lo spinner e avviare la generazione visuale della moltiplicazione giapponese
 function spinnerShow() {
     spinnerEl.style.opacity = '1'
+
     setTimeout(() => {
         spinnerEl.style.opacity = '0'
         printJapaneseVisualMultiplication()
@@ -186,6 +189,9 @@ function spinnerShow() {
         }
         btnEl.disabled = true;
     }, 1000)
+
+    particlesEl.style.opacity = '1'
+
 }
 
 // Funzione per dividere un numero nelle sue unità, decine e centinaia
@@ -215,7 +221,7 @@ let checkBothUnitsAndTens = () => {
 
 // Funzione per stampare la moltiplicazione visiva giapponese in base ai diversi casi degli input.
 function printJapaneseVisualMultiplication() {
-    japaneseContainerEl.style.display = 'flex';
+    japaneseContainerEl.style.opacity = '1';
     // Trasforma i numeri di input in formato "decine e unità"
     numberInputFirst = tensAndUnit(numberInputFirst);
     numberInputSecond = tensAndUnit(numberInputSecond);
