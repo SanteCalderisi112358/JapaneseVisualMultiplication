@@ -95,7 +95,7 @@ main{
 
 /* --STILE DEL CAMPO DI INPUT-- */
 .input-fields-container{
-    background-color: aquamarine;
+    background-color: transparent;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 4px 4px 6px rgba(0,0,0,0.5);
@@ -104,9 +104,10 @@ main{
     margin-bottom: 40px;
     position: relative;
     max-width: 400px;
-  
+    color: antiquewhite;
+    border: 1px solid white;
+    backdrop-filter: blur(2px);
 }
-
 .input,
 .btn{
     margin: 5px;
@@ -117,11 +118,17 @@ main{
 }
 
 .btn{
-    border: 1px solid blue;
     padding: 5px 10px;
 }
 
+button:not(:disabled){
+color: white;
+background-color: blue;
+opacity: .8;
+}
+
 .btn:hover{
+    opacity: 1;
     background-color: blue;
     border-color: white;
     color: white;
@@ -157,8 +164,11 @@ padding-bottom: 40px;
 
 /* --JAPANESE CONTAINER --*/
 .japanese-container{
-    /* display: none; */
-background-color: white;    border-radius: 10px;
+    display: none;
+background-image: url('https://images.unsplash.com/photo-1603484477859-abe6a73f9366?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    background-position: center;
+background-size: cover;
+border-radius: 10px;
     box-shadow: 4px 4px 6px rgba(0,0,0,0.9);
     display: flex;
     flex-direction: column;
@@ -166,8 +176,9 @@ background-color: white;    border-radius: 10px;
     padding: 40px 20px;
     width: 700px;
     position: relative;
-    opacity: 0;
+    /* opacity: 0; */
     backdrop-filter: blur(2px);
+    overflow: hidden;
 }
 
 .japanese-box{
@@ -190,64 +201,76 @@ aspect-ratio: 1;
 .hundreds-first-multiplicand{
     color: #b6b81d;
 font-weight: 700;
+text-shadow: 1px 1px black;
 }
 .tens-first-multiplicand{
 color: #EE70A2;
 font-weight: 700;
+text-shadow: 1px 1px black;
 }
 
 .units-first-multiplicand{
     color:#4DB07C;
     font-weight: 700;
+    text-shadow: 1px 1px black;
 
 }
 
 .hundreds-second-multiplicand{
     color: #b6b81d;
 font-weight: 700;
+text-shadow: 1px 1px black;
 }
 .tens-second-multiplicand{
 color: #444040;
 font-weight: 700;
+text-shadow: 1px 1px black;
 
 }
 
 .units-second-multiplicand{
 color: #025988;
 font-weight: 700;
+text-shadow: 1px 1px black;
 
 }
 .line-hundreds-first-multiplicand{
     position: absolute; 
     height: 100%; 
     border: 3px solid #728302;
+    text-shadow: 1px 1px black;
 }
 .line-tens-first-multiplicand{
     position: absolute; 
     height: 100%; 
     border: 3px solid #EE70A2;
+    text-shadow: 1px 1px black;
 }
 
 .line-units-first-multiplicand{
     position: absolute; 
     height: 100%; 
     border: 3px solid #4DB07C;
+    text-shadow: 1px 1px black;
 }
 .line-hundreds-second-multiplicand{
     position: absolute; 
     width: 100%; 
     border: 3px solid #a16f04;
+    text-shadow: 1px 1px black;
     
 }
 .line-tens-second-multiplicand{
     position: absolute; 
     width: 100%; 
     border: 3px solid #444040;
+    text-shadow: 1px 1px black;
 }
 .line-units-second-multiplicand{
     position: absolute; 
     width: 100%; 
     border: 3px solid #025988;
+    text-shadow: 1px 1px black;
 }
 
 .intersection-circle{
@@ -323,6 +346,7 @@ position: absolute;
     color: red;
     font-size: 30px;
     font-weight: 400;
+    text-shadow: 1px 1px black;
 }
 
 .curved{
@@ -392,6 +416,7 @@ ol{
     .span-number,
     .span-tens{
         font-size: 20px;
+        text-shadow: 1px 1px black;
     }
 
     .final-multiplication,

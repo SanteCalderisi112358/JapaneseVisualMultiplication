@@ -221,7 +221,7 @@ let checkBothUnitsAndTens = () => {
 
 // Funzione per stampare la moltiplicazione visiva giapponese in base ai diversi casi degli input.
 function printJapaneseVisualMultiplication() {
-    japaneseContainerEl.style.opacity = '1';
+    japaneseContainerEl.style.display = 'flex';
     // Trasforma i numeri di input in formato "decine e unità"
     numberInputFirst = tensAndUnit(numberInputFirst);
     numberInputSecond = tensAndUnit(numberInputSecond);
