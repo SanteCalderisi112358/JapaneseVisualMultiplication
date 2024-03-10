@@ -24,6 +24,71 @@ let areHundredsOnlySecond;
 
 let intersection = [];
 
+
+tsParticles.load("tsParticles",{
+    fpsLimit:50,
+    particles:{
+        color:{
+            value:["#FF8FB4","#FFAA86","#B192FF","#FF786F"]
+        },
+        move:{
+            attract:{
+                enable:false,
+                rotate:{
+                    x:800,
+                    y:800,
+                },
+            },
+        direction:"none",
+        enable:true,
+        outModes:{
+            default:"destroy",
+        },
+        random:true,
+        speed:3,
+        straight:false,
+        },
+        number:{
+            density:{
+                enable:true,
+                area:200,
+            },
+            opacity:{
+                value:0.1,
+            },
+            shape:{
+                type:"circle",
+            },
+            size:{
+                value:2,
+                animation:{
+                    startValue: "min",
+                    enable:false,
+                    minimumValue:1,
+                    speed:2,
+                    destroy:"max",
+                    sync:true
+                }
+            }
+        }
+    },
+    detectRetina:true,
+    emitters:{
+        direction:"none",
+        rate:{
+            quantity:10,
+            delay:0.3,
+        },
+        size:{
+            width:100,
+            height:100,
+        },
+        position:{
+            x:50,
+            y:50,
+        },
+    }
+})
 // Funzione per abilitare/disabilitare il pulsante in base all'input
 function enableBtnEl() {
     // Ottieni i valori degli input come numeri

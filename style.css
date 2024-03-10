@@ -4,12 +4,19 @@
 body{
     margin: 0 auto;
     box-sizing: border-box;
-    /* height: 100vh; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: "Poppins", sans-serif;
+    position: relative;
+    background-color: rgb(12,12,29);
+}
+
+#tsParticles{
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 nav,footer{
@@ -17,10 +24,12 @@ nav,footer{
     height: 100px;
     background-color: aquamarine;
     box-shadow: 4px 4px 6px rgba(0,0,0,0.5);
-    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(2px);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+
 
 }
 
@@ -34,6 +43,7 @@ nav h1{
     width: 100%;
     text-align: end;
     padding-right: 30px;
+    z-index: 999;
 }
 
 .language-selector a{
@@ -46,12 +56,17 @@ nav h1{
     box-shadow: 4px 4px 6px rgba(0,0,0,0.5);
     background-size: cover;
     background-position: center;
+  
 }
 .description-it,
 .description-en{
     padding: 40px 20px;
     font-size: 12px;
-    width: 100%;
+    width: 70%;
+backdrop-filter: blur(2px);
+color: white;
+letter-spacing: 2px;
+font-weight: 400;
 }
 
 .description-it{
@@ -119,6 +134,8 @@ main{
     justify-content: center;
     position: absolute;
    bottom: -60px;
+   backdrop-filter: blur(2px);
+font-weight: 500;
     
 }
 
@@ -140,8 +157,7 @@ padding-bottom: 40px;
 /* --JAPANESE CONTAINER --*/
 .japanese-container{
     display: none;
-    background-color: rgba(0,0,0,0.1);
-    border-radius: 10px;
+background-color: white;    border-radius: 10px;
     box-shadow: 4px 4px 6px rgba(0,0,0,0.9);
     /* display: flex; */
     flex-direction: column;
@@ -150,6 +166,7 @@ padding-bottom: 40px;
     width: 700px;
     position: relative;
     /* opacity: 0; */
+    backdrop-filter: blur(2px);
 }
 
 .japanese-box{
@@ -327,13 +344,14 @@ right: -50%;
 
 
 footer{
-    box-shadow: 2px -5px 6px rgba(0,0,0,0.5);
+margin-bottom: -20px;    
 }
 
 @media(max-width:576px){
 .description-en,
 .description-it{
     font-size: 10px;
+    width: 90%;
 }
 
 ol{
