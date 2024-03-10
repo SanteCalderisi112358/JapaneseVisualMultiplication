@@ -52,7 +52,7 @@ tsParticles.load("tsParticles",{
         number:{
             density:{
                 enable:true,
-                area:200,
+                area:500,
             },
             opacity:{
                 value:0.1,
@@ -77,7 +77,7 @@ tsParticles.load("tsParticles",{
     emitters:{
         direction:"none",
         rate:{
-            quantity:10,
+            quantity:1,
             delay:0.3,
         },
         size:{
